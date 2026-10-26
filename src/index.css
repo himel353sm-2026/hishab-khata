@@ -1,0 +1,13 @@
+@tailwindcss base;
+@tailwindcss components;
+@tailwindcss utilities;
+
+/* Screen-er baheire touch/slide scroll prevent korar jonno */
+html, body, #root {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden !important;
+  background-color: #0f172a; /* Slate-950 dark background */
+  touch-action: pan-y; /* Shudhu vertical scroll allow korbe, horizontal swipe block korbe */
+  -webkit-overflow-scrolling: touch;
+}
