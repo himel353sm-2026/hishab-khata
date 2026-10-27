@@ -151,9 +151,17 @@ const CSS = `
 .bcb button,.bcb input,.bcb select,.bcb textarea{font:inherit;color:inherit}
 .bcb button{cursor:pointer;border:0}
 .wrap{max-width:1150px;margin:0 auto;padding:12px 12px 48px}
+/* ---------- ডেস্কটপ: পুরো স্ক্রিন জুড়ে বড় করে দেখানো (মোবাইলে কোনো পরিবর্তন নেই) ---------- */
+@media(min-width:1000px){.wrap{max-width:none;width:100%;padding:18px 3vw 60px;zoom:1.2}}
+@media(min-width:1500px){.wrap{zoom:1.4;padding:18px 3vw 60px}}
+@media(min-width:1900px){.wrap{zoom:1.65}}
+@media(min-width:2400px){.wrap{zoom:2}}
+@media(min-width:1000px){.tabs{justify-content:flex-start}}
+html,body,#root{width:100%!important;max-width:none!important;margin:0!important;padding:0!important;display:block!important;text-align:left}
+.bcb{width:100%!important;max-width:none!important}
 .head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:nowrap;margin-bottom:16px}
 .hleft{display:flex;gap:8px;align-items:center}
-.brand{display:flex;align-items:center;gap:10px;background:none;color:var(--ac);font-size:18px;font-weight:800;text-align:right;min-width:0}
+.brand{display:flex;align-items:center;gap:10px;background:none;color:var(--ac);font-size:18px;font-weight:800;text-align:left;min-width:0}
 .brand b{line-height:1.15}
 @media(max-width:560px){.brand{font-size:13px;gap:8px}.brand b{max-width:96px}.bizbox select{max-width:96px}.logo{width:36px;height:36px}}
 .logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,#f97316,#fbbf24);display:grid;place-items:center;font-size:20px;flex:0 0 auto;box-shadow:0 6px 18px rgba(249,115,22,.35)}
@@ -164,7 +172,7 @@ const CSS = `
 .gear{background:var(--card);border:1px solid var(--bd);width:40px;height:40px;border-radius:12px;font-size:18px;position:relative}
 .dot{position:absolute;right:6px;top:6px;width:8px;height:8px;border-radius:50%;background:var(--grn)}
 .dot.off{background:#f97316}
-.tabs{display:flex;flex-wrap:nowrap;gap:10px;overflow-x:auto;overflow-y:hidden;padding:4px 2px 12px;margin-bottom:8px;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;cursor:grab;user-select:none}
+.tabs{touch-action:pan-x pan-y;display:flex;flex-wrap:nowrap;gap:10px;overflow-x:auto;overflow-y:hidden;padding:4px 2px 12px;margin-bottom:8px;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;cursor:grab;user-select:none}
 .tabs::-webkit-scrollbar{display:none}
 .tab{flex:0 0 auto;display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--bd);padding:12px 17px;border-radius:14px;font-weight:600;white-space:nowrap;font-size:14px}
 .tab.on{background:var(--ac);color:var(--acx);border-color:var(--ac);box-shadow:0 4px 18px rgba(245,158,11,.35)}
@@ -199,6 +207,7 @@ const CSS = `
 .stat{background:var(--card2);border:1px solid var(--bd);border-radius:16px;padding:16px}
 .stat small{color:var(--mut)}.stat b{display:block;font-size:22px;margin-top:6px}
 .calc{max-width:340px;margin:0 auto}
+.disp .ex{font-size:14px;color:var(--mut);min-height:20px;word-break:break-all}.disp .rs{font-size:34px;font-weight:800;word-break:break-all;line-height:1.2}
 .disp{background:var(--card2);border-radius:14px;padding:16px;text-align:right;font-size:28px;min-height:70px;word-break:break-all;margin-bottom:12px}
 .keys{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
 .keys button{background:var(--card2);border:1px solid var(--bd);border-radius:14px;padding:16px 0;font-size:20px;font-weight:700}
@@ -206,6 +215,11 @@ const CSS = `
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:50;padding:14px}
 .mbox{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:20px;width:100%;max-width:480px;max-height:90vh;overflow:auto}
 .mbox h2{font-size:18px;margin-bottom:14px}
+.modal.drawer{padding:0;justify-content:flex-end;align-items:stretch;animation:dfade .2s ease}
+.mbox.drawer{position:relative;width:100%;max-width:380px;height:100%;max-height:100vh;border-radius:20px 0 0 20px;border-right:0;padding:20px 18px 28px;animation:dslide .25s ease}
+.dclose{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:10px;background:var(--card2);border:1px solid var(--bd);font-size:15px}
+@keyframes dslide{from{transform:translateX(100%)}to{transform:none}}
+@keyframes dfade{from{background:rgba(0,0,0,0)}to{background:rgba(0,0,0,.6)}}
 .mbox label{display:block;color:var(--mut);font-size:13px;margin:10px 0 4px}
 .sset{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--bd)}
 .sset select{max-width:170px}
@@ -249,6 +263,50 @@ const CSS = `
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @media(max-width:420px){.bub{font-size:14px;padding:11px 17px}}
 `;
+
+/* ============================ ক্যালকুলেটর ইঞ্জিন ============================ */
+// নিরাপদ হিসাব (eval/Function ছাড়া)। + - * / % সাপোর্ট করে। যেমন 200+10% = 220, 50% = 0.5
+function calcEval(src) {
+  const t = String(src).match(/\d*\.?\d+|\d+\.|[+\-*/%]/g) || [];
+  let i = 0;
+  const bad = () => { throw new Error('x'); };
+  const factor = () => {
+    if (t[i] === '-') { i += 1; const f = factor(); return { v: -f.v, p: false }; }
+    if (t[i] === '+') { i += 1; return factor(); }
+    if (t[i] === undefined || !/^[\d.]/.test(t[i])) bad();
+    let v = parseFloat(t[i]); i += 1;
+    let p = false;
+    while (t[i] === '%') { v /= 100; p = true; i += 1; }
+    return { v, p };
+  };
+  const term = () => {
+    let a = factor();
+    while (t[i] === '*' || t[i] === '/') {
+      const op = t[i]; i += 1;
+      const b = factor();
+      if (op === '/' && b.v === 0) bad();
+      a = { v: op === '*' ? a.v * b.v : a.v / b.v, p: false };
+    }
+    return a;
+  };
+  const expr = () => {
+    let a = term();
+    while (t[i] === '+' || t[i] === '-') {
+      const op = t[i]; i += 1;
+      const b = term();
+      const add = b.p ? a.v * b.v : b.v;          // 200 + 10% = 200 + (200 × 10%)
+      a = { v: op === '+' ? a.v + add : a.v - add, p: false };
+    }
+    return a;
+  };
+  const r = expr();
+  if (i !== t.length) bad();
+  const out = Math.round(r.v * 1e10) / 1e10;
+  if (!isFinite(out)) bad();
+  return out;
+}
+const calcShow = (n) => (Math.abs(n) >= 1e15 ? String(n) : Number(n).toLocaleString('en-US', { maximumFractionDigits: 10 }));
+const calcSym = (s) => s.replace(/\*/g, '×').replace(/\//g, '÷').replace(/-/g, '−');
 
 /* ============================ ছোট কম্পোনেন্ট ============================ */
 function Splash({ out }) {
@@ -301,6 +359,9 @@ export default function App() {
   const [q, setQ] = useState('');
   const [month, setMonth] = useState(today().slice(0, 7));
   const [calc, setCalc] = useState('');
+  const [calcDone, setCalcDone] = useState(false);
+  const [calcPrev, setCalcPrev] = useState('');
+  const calcKeyRef = useRef(null);
   const [modal, setModal] = useState(null);
   const [toastMsg, setToastMsg] = useState('');
   const [upd, setUpd] = useState(null);
@@ -310,6 +371,12 @@ export default function App() {
   const [busy, setBusy] = useState(false);
   const [dn, setDn] = useState('');
   const [showPw, setShowPw] = useState(false);
+  const [vw, setVw] = useState(typeof window !== 'undefined' ? window.innerWidth : 1000);
+  useEffect(() => {
+    const f = () => setVw(window.innerWidth);
+    window.addEventListener('resize', f);
+    return () => window.removeEventListener('resize', f);
+  }, []);
 
   const [pf, setPf] = useState({ name: '', buy: '', sell: '', stock: '' });
   const [sf, setSf] = useState({ pid: '', qty: '1', price: '' });
@@ -320,6 +387,23 @@ export default function App() {
   const [bn, setBn] = useState('');
 
   const toast = (m) => { setToastMsg(m); clearTimeout(toast._t); toast._t = setTimeout(() => setToastMsg(''), 2200); };
+
+  /* ---- ক্যালকুলেটর: কিবোর্ড দিয়েও চলে (পিসিতে) ---- */
+  useEffect(() => {
+    if (tab !== 'calc' || modal) return undefined;
+    const h = (e) => {
+      const tg = e.target && e.target.tagName;
+      if (tg === 'INPUT' || tg === 'TEXTAREA' || tg === 'SELECT' || e.ctrlKey || e.metaKey || e.altKey) return;
+      const k = e.key; let m = null;
+      if (/^[0-9]$/.test(k) || '+-*/%.'.includes(k)) m = k;
+      else if (k === 'Enter' || k === '=') m = '=';
+      else if (k === 'Backspace') m = '⌫';
+      else if (k === 'Escape' || k === 'c' || k === 'C' || k === 'Delete') m = 'C';
+      if (m && k.length <= 9) { e.preventDefault(); if (calcKeyRef.current) calcKeyRef.current(m); }
+    };
+    window.addEventListener('keydown', h);
+    return () => window.removeEventListener('keydown', h);
+  }, [tab, modal]);
 
   /* ---- ট্যাব লাইন: ডানে-বামে সোয়াইপ (মোবাইলে টাচ, পিসিতে মাউস টেনে) ---- */
   const tabsRef = useRef(null);
@@ -590,19 +674,40 @@ export default function App() {
 
   /* ============ ক্যালকুলেটর ============ */
   const calcKey = (k) => {
-    if (k === 'C') return setCalc('');
-    if (k === '⌫') return setCalc(calc.slice(0, -1));
+    const isOp = (c) => '+-*/'.includes(c);
+    let cur = calc;
+    if (k === 'C') { setCalc(''); setCalcDone(false); setCalcPrev(''); return; }
+    if (k === '⌫') { if (calcDone) { setCalc(''); setCalcDone(false); setCalcPrev(''); } else setCalc(cur.slice(0, -1)); return; }
     if (k === '=') {
+      if (!cur || calcDone) return;
+      let ex = cur; while (ex && isOp(ex[ex.length - 1])) ex = ex.slice(0, -1);
       try {
-        if (!/^[0-9+\-*/.()% ]+$/.test(calc)) throw new Error('x');
-        const expr = calc.replace(/(\d+(\.\d+)?)%/g, '($1/100)');
-        // eslint-disable-next-line no-new-func
-        const v = Function('"use strict";return (' + expr + ')')();
-        return setCalc(String(Math.round(v * 1e10) / 1e10));
-      } catch (e) { setCalc(''); return toast('Error'); }
+        const r = calcEval(ex);
+        setCalcPrev(calcSym(ex) + ' ='); setCalc(String(r)); setCalcDone(true);
+      } catch (e) { toast(lang === 'bn' ? 'হিসাব ঠিক নেই' : 'Invalid calculation'); }
+      return;
     }
-    return setCalc(calc + k);
+    const last = cur[cur.length - 1];
+    if (/^[0-9.]|^00$/.test(k)) {
+      if (calcDone) { cur = ''; setCalcDone(false); setCalcPrev(''); }
+      const seg = (cur.match(/[\d.]*$/) || [''])[0];
+      if (k === '.') { if (seg.includes('.')) return; cur += seg === '' ? '0.' : '.'; }
+      else if (k === '00') { if (seg === '' || seg === '0') return; cur += '00'; }
+      else if (seg === '0') cur = cur.slice(0, -1) + k;
+      else if (last === '%') cur += '*' + k;
+      else cur += k;
+      setCalc(cur); return;
+    }
+    if (k === '%') { if (cur && /[0-9.]$/.test(cur)) { setCalc(cur + '%'); setCalcDone(false); } return; }
+    if (isOp(k)) {
+      if (calcDone) { setCalcDone(false); setCalcPrev(''); }
+      if (!cur) { if (k === '-') setCalc('-'); return; }
+      if (cur === '-') return;
+      if (isOp(last)) { cur = cur.slice(0, -1); if (!cur && k !== '-') return; }
+      setCalc(cur + k);
+    }
   };
+  calcKeyRef.current = calcKey;
 
   /* ============ আপডেট ============ */
   async function checkUpdate(silent) {
@@ -809,16 +914,26 @@ export default function App() {
         <div className="card total"><span>{t('stockValue')}</span><b>{money(stockValue)}</b></div>
       </>
     ),
-    calc: () => (
-      <div className="card"><div className="calc">
-        <div className="disp">{calc || '0'}</div>
-        <div className="keys">
-          {['C', '⌫', '%', '/', '7', '8', '9', '*', '4', '5', '6', '-', '1', '2', '3', '+', '0', '.', '00', '='].map((k) => (
-            <button key={k} className={'/*-+='.includes(k) ? 'op' : ''} onClick={() => calcKey(k)}>{k === '*' ? '×' : k === '/' ? '÷' : k}</button>
-          ))}
-        </div>
-      </div></div>
-    ),
+    calc: () => {
+      let live = '';
+      if (!calcDone && calc) {
+        let ex = calc; while (ex && '+-*/'.includes(ex[ex.length - 1])) ex = ex.slice(0, -1);
+        if (/[0-9.%]/.test(ex)) { try { if (/[+\-*/%]/.test(ex.replace(/^-/, ''))) live = calcShow(calcEval(ex)); } catch (e) { live = ''; } }
+      }
+      const seg = (calc.match(/[\d.]*$/) || [''])[0];
+      const big = calcDone ? calcShow(parseFloat(calc)) : (live || (seg !== '' ? seg : (calc ? '' : '0')));
+      const top = calcDone ? calcPrev : calcSym(calc);
+      return (
+        <div className="card"><div className="calc">
+          <div className="disp"><div className="ex">{top || '\u00a0'}</div><div className="rs">{big || '\u00a0'}</div></div>
+          <div className="keys">
+            {['C', '⌫', '%', '/', '7', '8', '9', '*', '4', '5', '6', '-', '1', '2', '3', '+', '00', '0', '.', '='].map((k) => (
+              <button key={k} className={'/*-+%'.includes(k) || k === '=' ? 'op' : ''} onClick={() => calcKey(k)}>{k === '*' ? '×' : k === '/' ? '÷' : k === '-' ? '−' : k}</button>
+            ))}
+          </div>
+        </div></div>
+      );
+    },
     note: () => (
       <>
         <div className="card"><h3>{t('note')}</h3>
@@ -927,18 +1042,30 @@ export default function App() {
         </>
       );
     }
+    const drawer = m === 'settings' || m === 'bin';   // সেটিংস/বিন: ডান পাশ থেকে ড্রয়ার, বাকিগুলো ছোট পপআপ
     return (
-      <div className="modal" onMouseDown={(e) => { if (e.target.className === 'modal') setModal(null); }}>
-        <div className="mbox">{body}</div>
+      <div className={'modal' + (drawer ? ' drawer' : '')} onMouseDown={(e) => { if (e.target === e.currentTarget) setModal(null); }}>
+        <div className={'mbox' + (drawer ? ' drawer' : '')}>
+          {drawer && <button className="dclose" onClick={() => setModal(null)}>✕</button>}
+          {body}
+        </div>
       </div>
     );
   };
 
   /* ---------------- মূল পেজ ---------------- */
+  // ডেস্কটপে পুরো স্ক্রিন জুড়ে বড় করে দেখানো (মোবাইলে কিছু বদলায় না)
+  const scale = vw >= 2400 ? 2 : vw >= 1900 ? 1.65 : vw >= 1500 ? 1.4 : vw >= 1000 ? 1.2 : 1;
+  const wrapStyle = scale > 1 ? { maxWidth: 'none', width: '100%', zoom: scale, padding: '18px 3vw 60px' } : undefined;
   return root(
-    <div className="wrap">
+    <>
+    <div className="wrap" style={wrapStyle}>
       <div className="head">
-        {/* বাম কোণা: বিজনেস সিলেক্টর + সেটিংস */}
+        {/* বাম পাশ: অ্যাপ আইকন + নাম — ট্যাপ করলে রিফ্রেশ */}
+        <button className="brand" onClick={() => window.location.reload()}>
+          <span className="logo">🧮</span><b>{APP_NAME}</b>
+        </button>
+        {/* ডান পাশ: বিজনেস সিলেক্টর + অ্যাড (+) + সেটিংস */}
         <div className="hleft">
           <div className="bizbox"><span>🏢</span>
             <select value={cur || ''} onChange={(e) => pickCur(e.target.value)}>
@@ -948,10 +1075,6 @@ export default function App() {
           </div>
           <button className="gear" onClick={() => setModal('settings')}>⚙️<span className={'dot' + (online ? '' : ' off')} /></button>
         </div>
-        {/* ডান পাশ: অ্যাপ আইকন + নাম — ট্যাপ করলে রিফ্রেশ */}
-        <button className="brand" onClick={() => window.location.reload()}>
-          <b>{APP_NAME}</b><span className="logo">🧮</span>
-        </button>
       </div>
 
       <nav className="tabs" ref={tabsRef} onMouseDown={tabsDown} onMouseMove={tabsMove} onMouseUp={tabsUp} onMouseLeave={tabsUp}>
@@ -963,11 +1086,11 @@ export default function App() {
 
       <main>{(views[tab] || views.stock)()}</main>
 
-      {renderModal()}
-
-      {upd && (
-        <div className="toast" style={{ cursor: 'pointer', bottom: 70 }} onClick={applyUpdate}>{t('newUpdate')}</div>
-      )}
     </div>
+    {renderModal()}
+    {upd && (
+      <div className="toast" style={{ cursor: 'pointer', bottom: 70 }} onClick={applyUpdate}>{t('newUpdate')}</div>
+    )}
+    </>
   );
 }
