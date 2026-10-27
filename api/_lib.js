@@ -1,4 +1,4 @@
-// Shared helpers. Everything is loaded lazily so a config mistake returns a readable error instead of crashing.
+// Shared helpers (modular firebase-admin API). Loaded lazily so a config mistake returns a readable error.
 const crypto = require('crypto');
 const sha = (s) => crypto.createHash('sha256').update(s).digest('hex');
 
@@ -10,22 +10,29 @@ function parseSA() {
   return sa;
 }
 
-function getAdmin() {
-  const admin = require('firebase-admin');
-  if (!admin.apps.length) admin.initializeApp({ credential: admin.credential.cert(parseSA()) });
-  return admin;
+function getFbApp() {
+  const { initializeApp, getApps, cert } = require('firebase-admin/app');
+  const existing = getApps();
+  if (existing.length) return existing[0];
+  return initializeApp({ credential: cert(parseSA()) });
 }
 
-// Firestore over REST (no gRPC) - works around gRPC problems in serverless environments
-function getRestDb() {
-  const admin = getAdmin();
-  let app;
-  try { app = admin.app('rest'); }
-  catch (e) { app = admin.initializeApp({ credential: admin.credential.cert(parseSA()) }, 'rest'); }
-  const db = app.firestore();
-  try { db.settings({ preferRest: true }); } catch (e) { /* already configured */ }
+function getAuthAdmin() {
+  const { getAuth } = require('firebase-admin/auth');
+  return getAuth(getFbApp());
+}
+
+let _db = null;
+function getDb() {
+  if (_db) return _db;
+  const { getFirestore } = require('firebase-admin/firestore');
+  const db = getFirestore(getFbApp());
+  try { db.settings({ preferRest: true }); } catch (e) { /* ignore */ }   // REST instead of gRPC (more reliable on serverless)
+  _db = db;
   return db;
 }
+
+function fieldValue() { return require('firebase-admin/firestore').FieldValue; }
 
 function getMailer() {
   const nodemailer = require('nodemailer');
@@ -35,4 +42,4 @@ function getMailer() {
   });
 }
 
-module.exports = { sha, crypto, getAdmin, getRestDb, getMailer };
+module.exports = { sha, crypto, getAuthAdmin, getDb, fieldValue, getMailer };
