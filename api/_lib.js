@@ -64,4 +64,4 @@ function getMailer() {
   });
 }
 
-module.exports = { sha, crypto, getUserByEmail, setPassword, getDb, fieldValue, getMailer };
+module.exports = { sha, crypto, getUserByEmail, createUser, setPassword, getDb, fieldValue, getMailer };

@@ -505,13 +505,13 @@ export default function App() {
   const apiPost = async (path, body) => {
     const r = await fetch(API_BASE + '/api/' + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     let j = {}; try { j = await r.json(); } catch (e) { /* ignore */ }
-    if (!r.ok) { const er = new Error(j.code || 'server'); er.apiCode = j.code || 'server'; throw er; }
+    if (!r.ok) { const er = new Error(j.code || 'server'); er.apiCode = j.code || 'server'; er.detail = j.detail || ''; throw er; }
     return j;
   };
   const otpErr = (e) => {
     if (!e.apiCode) return t('e_net');
     const m = { 'no-user': 'e_nouser', wait: 'e_wait', expired: 'e_exp', 'bad-otp': 'e_otp', 'too-many': 'e_many', weak: 'e_weak', 'invalid-email': 'e_mail', exists: 'e_exists' };
-    return t(m[e.apiCode] || 'e_other');
+    return m[e.apiCode] ? t(m[e.apiCode]) : t('e_other') + (e.detail ? ' (' + e.detail + ')' : '');
   };
   const doSendOtp = async () => {
     const email = af.email.trim().toLowerCase();
