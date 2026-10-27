@@ -80,7 +80,7 @@ const L = {
     types: { product: 'পণ্য', sale: 'লেনদেন', ret: 'রিটার্ন', exp: 'খরচ', note: 'নোট', biz: 'বিজনেস' },
     tagline: 'আপনার ডিজিটাল হিসাব খাতা', loading: 'লোড হচ্ছে...', online: 'অনলাইন — সব ডিভাইসে সিঙ্ক চালু',
     offline: 'অফলাইন — নেট এলে অটো সিঙ্ক হবে', setup: '⚠️ Firebase কনফিগ বসানো হয়নি। App.js এর উপরে firebaseConfig দিন।',
-    delForever: 'চিরতরে মুছবেন?', date: 'তারিখ', showPw: 'পাসওয়ার্ড দেখান', delAcc: 'অ্যাকাউন্ট ডিলিট করুন', delAccWarn: 'আপনার অ্যাকাউন্ট আর সব ডেটা (বিজনেস, স্টক, লেনদেন, রিসাইকেল বিনসহ) চিরতরে মুছে যাবে। এটা আর ফেরানো যাবে না। পরে চাইলে এই ইমেইল দিয়ে নতুন করে অ্যাকাউন্ট খুলতে পারবেন।', delAccPass: 'নিশ্চিত করতে আপনার পাসওয়ার্ড দিন', delAccBtn: 'হ্যাঁ, চিরতরে মুছুন', accDeleted: 'অ্যাকাউন্ট মুছে গেছে। চাইলে একই ইমেইলে নতুন অ্যাকাউন্ট খুলুন', otpSent: 'OTP আপনার ইমেইলে পাঠানো হয়েছে (Spam-ও দেখুন)', otpPh: 'ইমেইলে আসা ৬ সংখ্যার OTP', newPass: 'নতুন পাসওয়ার্ড', sendOtp: 'OTP পাঠান', resetBtn: 'পাসওয়ার্ড বদলান', resend: 'আবার OTP পাঠান', backLogin: '← লগইনে ফিরুন', passChanged: 'পাসওয়ার্ড বদলানো হয়েছে', e_nouser: 'এই ইমেইলে কোনো অ্যাকাউন্ট নেই', e_wait: '১ মিনিট পরে আবার চেষ্টা করুন', e_exp: 'OTP মেয়াদ শেষ, আবার OTP নিন', e_otp: 'OTP ভুল', e_many: 'অনেকবার ভুল হয়েছে, আবার OTP নিন',
+    delForever: 'চিরতরে মুছবেন?', date: 'তারিখ', showPw: 'পাসওয়ার্ড দেখান', delAcc: 'অ্যাকাউন্ট ডিলিট করুন', delAccWarn: 'আপনার অ্যাকাউন্ট আর সব ডেটা (বিজনেস, স্টক, লেনদেন, রিসাইকেল বিনসহ) চিরতরে মুছে যাবে। এটা আর ফেরানো যাবে না। পরে চাইলে এই ইমেইল দিয়ে নতুন করে অ্যাকাউন্ট খুলতে পারবেন।', delAccPass: 'নিশ্চিত করতে আপনার পাসওয়ার্ড দিন', delAccBtn: 'হ্যাঁ, চিরতরে মুছুন', accDeleted: 'অ্যাকাউন্ট মুছে গেছে। চাইলে একই ইমেইলে নতুন অ্যাকাউন্ট খুলুন', verifyBtn: 'যাচাই করে অ্যাকাউন্ট খুলুন', otpSent: 'OTP আপনার ইমেইলে পাঠানো হয়েছে (Spam-ও দেখুন)', otpPh: 'ইমেইলে আসা ৬ সংখ্যার OTP', newPass: 'নতুন পাসওয়ার্ড', sendOtp: 'OTP পাঠান', resetBtn: 'পাসওয়ার্ড বদলান', resend: 'আবার OTP পাঠান', backLogin: '← লগইনে ফিরুন', passChanged: 'পাসওয়ার্ড বদলানো হয়েছে', e_nouser: 'এই ইমেইলে কোনো অ্যাকাউন্ট নেই', e_wait: '১ মিনিট পরে আবার চেষ্টা করুন', e_exp: 'OTP মেয়াদ শেষ, আবার OTP নিন', e_otp: 'OTP ভুল', e_many: 'অনেকবার ভুল হয়েছে, আবার OTP নিন',
     e_wrong: 'ইমেইল বা পাসওয়ার্ড ভুল। ইমেইলের বানান দেখুন। আগে রেজিস্টার না করলে নিচে "রেজিস্টার" চাপুন', e_exists: 'এই ইমেইল দিয়ে আগেই অ্যাকাউন্ট আছে', e_weak: 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষর দিন',
     e_net: 'ইন্টারনেট সংযোগ নেই', e_mail: 'ইমেইল সঠিক নয়', e_other: 'কিছু একটা সমস্যা হয়েছে',
   },
@@ -107,7 +107,7 @@ const L = {
     types: { product: 'Product', sale: 'Transaction', ret: 'Return', exp: 'Expense', note: 'Note', biz: 'Business' },
     tagline: 'Your digital account book', loading: 'Loading...', online: 'Online — synced on all devices',
     offline: 'Offline — will sync when online', setup: '⚠️ Firebase config missing. Fill firebaseConfig at the top of App.js.',
-    delForever: 'Delete forever?', date: 'Date', showPw: 'Show password', delAcc: 'Delete account', delAccWarn: 'Your account and ALL data (businesses, stock, transactions, recycle bin) will be permanently deleted. This cannot be undone. You can create a new account with this email later.', delAccPass: 'Enter your password to confirm', delAccBtn: 'Yes, delete forever', accDeleted: 'Account deleted. You can register again with the same email', otpSent: 'OTP sent to your email (check Spam too)', otpPh: '6-digit OTP from email', newPass: 'New password', sendOtp: 'Send OTP', resetBtn: 'Change password', resend: 'Resend OTP', backLogin: '← Back to login', passChanged: 'Password changed', e_nouser: 'No account with this email', e_wait: 'Try again after 1 minute', e_exp: 'OTP expired, request a new one', e_otp: 'Wrong OTP', e_many: 'Too many wrong tries, request a new OTP',
+    delForever: 'Delete forever?', date: 'Date', showPw: 'Show password', delAcc: 'Delete account', delAccWarn: 'Your account and ALL data (businesses, stock, transactions, recycle bin) will be permanently deleted. This cannot be undone. You can create a new account with this email later.', delAccPass: 'Enter your password to confirm', delAccBtn: 'Yes, delete forever', accDeleted: 'Account deleted. You can register again with the same email', verifyBtn: 'Verify & create account', otpSent: 'OTP sent to your email (check Spam too)', otpPh: '6-digit OTP from email', newPass: 'New password', sendOtp: 'Send OTP', resetBtn: 'Change password', resend: 'Resend OTP', backLogin: '← Back to login', passChanged: 'Password changed', e_nouser: 'No account with this email', e_wait: 'Try again after 1 minute', e_exp: 'OTP expired, request a new one', e_otp: 'Wrong OTP', e_many: 'Too many wrong tries, request a new OTP',
     e_wrong: 'Wrong email or password. Check the email spelling. If you never registered, tap Register', e_exists: 'An account with this email already exists', e_weak: 'Password must be at least 6 characters',
     e_net: 'No internet connection', e_mail: 'Invalid email', e_other: 'Something went wrong',
   },
@@ -510,7 +510,7 @@ export default function App() {
   };
   const otpErr = (e) => {
     if (!e.apiCode) return t('e_net');
-    const m = { 'no-user': 'e_nouser', wait: 'e_wait', expired: 'e_exp', 'bad-otp': 'e_otp', 'too-many': 'e_many', weak: 'e_weak', 'invalid-email': 'e_mail' };
+    const m = { 'no-user': 'e_nouser', wait: 'e_wait', expired: 'e_exp', 'bad-otp': 'e_otp', 'too-many': 'e_many', weak: 'e_weak', 'invalid-email': 'e_mail', exists: 'e_exists' };
     return t(m[e.apiCode] || 'e_other');
   };
   const doSendOtp = async () => {
@@ -533,9 +533,32 @@ export default function App() {
     } catch (err) { toast(err.apiCode || !err.code ? otpErr(err) : errMsg(err)); }
     setBusy(false);
   };
+  const doRegSend = async () => {
+    const email = af.email.trim().toLowerCase(), name = af.name.trim();
+    if (!email || !af.pass || !name) return toast(t('fill'));
+    if (af.pass.length < 6) return toast(t('e_weak'));
+    setBusy(true);
+    try { await apiPost('send-otp', { email, purpose: 'register' }); setAf({ ...af, email, otp: '' }); setAMode('verify'); toast(t('otpSent')); }
+    catch (err) { toast(otpErr(err)); }
+    setBusy(false);
+  };
+  const doRegVerify = async () => {
+    const email = af.email.trim().toLowerCase();
+    if (af.otp.length !== 6) return toast(t('fill'));
+    setBusy(true);
+    try {
+      await apiPost('register', { email, otp: af.otp, password: af.pass, name: af.name.trim() });
+      setDn(af.name.trim());
+      await signInWithEmailAndPassword(auth, email, af.pass);
+      setAf({ name: '', email: '', pass: '', otp: '' }); setAMode('login');
+    } catch (err) { toast(err.apiCode || !err.code ? otpErr(err) : errMsg(err)); }
+    setBusy(false);
+  };
   const doAuth = async (e) => {
     e.preventDefault();
     if (aMode === 'forgot') return doSendOtp();
+    if (aMode === 'register') return doRegSend();
+    if (aMode === 'verify') return doRegVerify();
     if (aMode === 'reset') return doReset();
     const email = af.email.trim().toLowerCase(), pass = af.pass, name = af.name.trim();
     if (!email || !pass || (aMode === 'register' && !name)) return toast(t('fill'));
@@ -777,19 +800,20 @@ export default function App() {
             <h2>{APP_NAME}</h2>
             <p>{L.bn.tagline}</p>
             {!CONFIGURED && <div className="warn">{t('setup')}</div>}
-            {reg && <input placeholder={t('yourName')} value={af.name} onChange={(e) => setAf({ ...af, name: e.target.value })} />}
-            <input type="email" autoComplete="email" autoCapitalize="none" autoCorrect="off" spellCheck={false} readOnly={aMode === 'reset'} placeholder={t('email')} value={af.email} onChange={(e) => setAf({ ...af, email: e.target.value.replace(/\s/g, '') })} />
-            {aMode === 'reset' && <input inputMode="numeric" maxLength={6} autoComplete="one-time-code" placeholder={t('otpPh')} value={af.otp} onChange={(e) => setAf({ ...af, otp: e.target.value.replace(/\D/g, '') })} />}
-            {aMode !== 'forgot' && (
+            {(reg || aMode === 'verify') && <input readOnly={aMode === 'verify'} placeholder={t('yourName')} value={af.name} onChange={(e) => setAf({ ...af, name: e.target.value })} />}
+            <input type="email" autoComplete="email" autoCapitalize="none" autoCorrect="off" spellCheck={false} readOnly={aMode === 'reset' || aMode === 'verify'} placeholder={t('email')} value={af.email} onChange={(e) => setAf({ ...af, email: e.target.value.replace(/\s/g, '') })} />
+            {(aMode === 'reset' || aMode === 'verify') && <input inputMode="numeric" maxLength={6} autoComplete="one-time-code" placeholder={t('otpPh')} value={af.otp} onChange={(e) => setAf({ ...af, otp: e.target.value.replace(/\D/g, '') })} />}
+            {aMode !== 'forgot' && aMode !== 'verify' && (
               <>
-                <input type={showPw ? 'text' : 'password'} autoComplete={reg || aMode === 'reset' ? 'new-password' : 'current-password'} autoCapitalize="none" autoCorrect="off" spellCheck={false} placeholder={aMode === 'reset' ? t('newPass') : t('password')} value={af.pass} onChange={(e) => setAf({ ...af, pass: e.target.value })} />
+                <input type={showPw ? 'text' : 'password'} autoComplete={reg || aMode === 'reset' || aMode === 'verify' ? 'new-password' : 'current-password'} autoCapitalize="none" autoCorrect="off" spellCheck={false} placeholder={aMode === 'reset' ? t('newPass') : t('password')} value={af.pass} onChange={(e) => setAf({ ...af, pass: e.target.value })} />
                 <label className="showpw"><input type="checkbox" checked={showPw} onChange={(e) => setShowPw(e.target.checked)} />{t('showPw')}</label>
               </>
             )}
-            <button className="btn full" type="submit" disabled={busy}>{busy ? '...' : reg ? t('register') : aMode === 'forgot' ? t('sendOtp') : aMode === 'reset' ? t('resetBtn') : t('login')}</button>
+            <button className="btn full" type="submit" disabled={busy}>{busy ? '...' : aMode === 'verify' ? t('verifyBtn') : reg ? t('register') : aMode === 'forgot' ? t('sendOtp') : aMode === 'reset' ? t('resetBtn') : t('login')}</button>
             {aMode === 'login' && <button type="button" className="link" onClick={() => setAMode('forgot')}>{t('forgot')}</button>}
             {aMode === 'reset' && <button type="button" className="link" onClick={doSendOtp}>{t('resend')}</button>}
-            {aMode === 'forgot' || aMode === 'reset'
+            {aMode === 'verify' && <button type="button" className="link" onClick={doRegSend}>{t('resend')}</button>}
+            {aMode === 'forgot' || aMode === 'reset' || aMode === 'verify'
               ? <button type="button" className="link" onClick={() => setAMode('login')}>{t('backLogin')}</button>
               : <button type="button" className="link" onClick={() => setAMode(reg ? 'login' : 'register')}>{reg ? t('haveAcc') : t('noAcc')}</button>}
           </div>

@@ -39,6 +39,7 @@ async function getUserByEmail(email) {
   return u ? { uid: u.localId, email: u.email } : null;
 }
 
+async function createUser(email,password,displayName){ return idToolkit('accounts',{email,password,displayName,emailVerified:true}); }
 async function setPassword(uid, password) {
   return idToolkit('accounts:update', { localId: uid, password });
 }
