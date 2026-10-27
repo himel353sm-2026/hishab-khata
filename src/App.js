@@ -41,6 +41,8 @@ const UPDATE_URL = '/version.json';
 const APK_URL = '';
 const APP_NAME = 'Business Calculator Book';
 // OTP সার্ভার-ফাংশনের ঠিকানা। ওয়েবে ফাঁকা থাকবে। মোবাইল APK তে নিজের সাইটের পুরো লিংক দিন (যেমন 'https://hishab-khata.vercel.app')
+// পাসওয়ার্ড ঘর type=password না হলে ব্রাউজার তা অটোফিল/সেভ করে না; -webkit-text-security দিয়ে বিন্দু দেখানো হয়
+const MASK_OK = typeof CSS !== 'undefined' && !!CSS.supports && CSS.supports('-webkit-text-security', 'disc');
 const API_BASE = '';
 
 const CONFIGURED = !String(firebaseConfig.apiKey).startsWith('YOUR');
@@ -227,6 +229,7 @@ html,body,#root{width:100%!important;max-width:none!important;margin:0!important
 .auth h2{text-align:center;color:var(--ac);margin-bottom:6px}
 .auth p{text-align:center;color:var(--mut);font-size:13px;margin-bottom:16px}
 .auth input{margin-bottom:12px}
+.pwmask{-webkit-text-security:disc}
 .showpw{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mut);margin-bottom:12px}
 .showpw input{width:auto;margin:0;padding:0}
 .link{background:none;color:var(--ac);text-decoration:underline;margin-top:12px;width:100%;font-size:14px}
@@ -794,18 +797,18 @@ export default function App() {
       <>
         <div className="glow" style={{ width: 300, height: 300, background: '#f97316', top: -80, right: -80 }} />
         <div className="glow" style={{ width: 260, height: 260, background: '#fbbf24', bottom: -90, left: -70 }} />
-        <form className="auth" onSubmit={doAuth}>
+        <form className="auth" onSubmit={doAuth} autoComplete="off">
           <div className="card">
             <div style={{ textAlign: 'center', marginBottom: 10 }}><span className="logo" style={{ display: 'inline-grid' }}>🧮</span></div>
             <h2>{APP_NAME}</h2>
             <p>{L.bn.tagline}</p>
             {!CONFIGURED && <div className="warn">{t('setup')}</div>}
-            {(reg || aMode === 'verify') && <input readOnly={aMode === 'verify'} placeholder={t('yourName')} value={af.name} onChange={(e) => setAf({ ...af, name: e.target.value })} />}
-            <input type="email" autoComplete="email" autoCapitalize="none" autoCorrect="off" spellCheck={false} readOnly={aMode === 'reset' || aMode === 'verify'} placeholder={t('email')} value={af.email} onChange={(e) => setAf({ ...af, email: e.target.value.replace(/\s/g, '') })} />
-            {(aMode === 'reset' || aMode === 'verify') && <input inputMode="numeric" maxLength={6} autoComplete="one-time-code" placeholder={t('otpPh')} value={af.otp} onChange={(e) => setAf({ ...af, otp: e.target.value.replace(/\D/g, '') })} />}
+            {(reg || aMode === 'verify') && <input name="fld-nm-x" autoComplete="off" data-lpignore="true" data-1p-ignore="true" readOnly={aMode === 'verify'} placeholder={t('yourName')} value={af.name} onChange={(e) => setAf({ ...af, name: e.target.value })} />}
+            <input type="text" inputMode="email" name="fld-em-x" autoComplete="off" data-lpignore="true" data-1p-ignore="true" data-form-type="other" autoCapitalize="none" autoCorrect="off" spellCheck={false} readOnly={aMode === 'reset' || aMode === 'verify'} placeholder={t('email')} value={af.email} onChange={(e) => setAf({ ...af, email: e.target.value.replace(/\s/g, '') })} />
+            {(aMode === 'reset' || aMode === 'verify') && <input inputMode="numeric" maxLength={6} name="fld-otp-x" autoComplete="off" data-lpignore="true" placeholder={t('otpPh')} value={af.otp} onChange={(e) => setAf({ ...af, otp: e.target.value.replace(/\D/g, '') })} />}
             {aMode !== 'forgot' && aMode !== 'verify' && (
               <>
-                <input type={showPw ? 'text' : 'password'} autoComplete={reg || aMode === 'reset' || aMode === 'verify' ? 'new-password' : 'current-password'} autoCapitalize="none" autoCorrect="off" spellCheck={false} placeholder={aMode === 'reset' ? t('newPass') : t('password')} value={af.pass} onChange={(e) => setAf({ ...af, pass: e.target.value })} />
+                <input type={showPw || MASK_OK ? 'text' : 'password'} className={!showPw && MASK_OK ? 'pwmask' : ''} name="fld-pw-x" autoComplete="off" data-lpignore="true" data-1p-ignore="true" data-form-type="other" autoCapitalize="none" autoCorrect="off" spellCheck={false} placeholder={aMode === 'reset' ? t('newPass') : t('password')} value={af.pass} onChange={(e) => setAf({ ...af, pass: e.target.value })} />
                 <label className="showpw"><input type="checkbox" checked={showPw} onChange={(e) => setShowPw(e.target.checked)} />{t('showPw')}</label>
               </>
             )}
