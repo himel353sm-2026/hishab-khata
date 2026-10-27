@@ -1,6 +1,6 @@
 // POST /api/send-otp  { email }  -> emails a 6-digit OTP (valid 10 minutes)
 // GET  /api/send-otp?check=1     -> setup check (shows only true/false, never secrets)
-const { sha, crypto, getAuthAdmin, getDb, getMailer } = require('./_lib');
+const { sha, crypto, getUserByEmail, getDb, getMailer } = require('./_lib');
 const short = (e) => (String((e && e.message) || e) + ' | ' + String((e && e.stack) || '').split('\n').slice(1, 3).join(' ').trim()).slice(0, 320);
 
 module.exports = async (req, res) => {
@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
     try { JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT); out.serviceAccountJson = true; } catch (e) { out.serviceAccountJson = false; }
     try { require('firebase-admin/app'); out.firebaseAdminInstalled = true; } catch (e) { out.firebaseAdminInstalled = 'NO: ' + short(e); }
     try { require('nodemailer'); out.nodemailerInstalled = true; } catch (e) { out.nodemailerInstalled = false; }
-    try { await getAuthAdmin().listUsers(1); out.auth = 'ok'; } catch (e) { out.auth = 'ERROR: ' + short(e); }
+    try { await getUserByEmail('check@example.invalid'); out.auth = 'ok'; } catch (e) { out.auth = 'ERROR: ' + short(e); }
     try { await getDb().collection('otps').limit(1).get(); out.firestore = 'ok'; } catch (e) { out.firestore = 'ERROR: ' + short(e); }
     return res.status(200).json(out);
   }
@@ -18,12 +18,8 @@ module.exports = async (req, res) => {
     const email = String((req.body || {}).email || '').trim().toLowerCase();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ code: 'invalid-email' });
 
-    let user;
-    try { user = await getAuthAdmin().getUserByEmail(email); }
-    catch (e) {
-      if (e && e.code === 'auth/user-not-found') return res.status(404).json({ code: 'no-user' });
-      throw e;
-    }
+    const user = await getUserByEmail(email);
+    if (!user) return res.status(404).json({ code: 'no-user' });
 
     const ref = getDb().collection('otps').doc(sha(email));
     const snap = await ref.get();

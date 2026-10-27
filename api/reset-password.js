@@ -1,5 +1,5 @@
 // POST /api/reset-password  { email, otp, password }  -> sets the new password if the OTP is right
-const { sha, getAuthAdmin, getDb, fieldValue } = require('./_lib');
+const { sha, setPassword, getDb, fieldValue } = require('./_lib');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ code: 'method' });
@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
       await ref.update({ tries: fieldValue().increment(1) });
       return res.status(400).json({ code: 'bad-otp' });
     }
-    await getAuthAdmin().updateUser(d.uid, { password });   // only the password changes; data stays
+    await setPassword(d.uid, password);   // only the password changes; data stays
     await ref.delete();
     return res.status(200).json({ ok: true });
   } catch (e) {

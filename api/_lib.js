@@ -17,9 +17,30 @@ function getFbApp() {
   return initializeApp({ credential: cert(parseSA()) });
 }
 
-function getAuthAdmin() {
-  const { getAuth } = require('firebase-admin/auth');
-  return getAuth(getFbApp());
+// Auth via Identity Toolkit REST API (avoids firebase-admin's auth module, which needs ESM-only "jose" and breaks on some Node versions)
+async function idToolkit(path, body) {
+  const app = getFbApp();
+  const tok = await app.options.credential.getAccessToken();
+  const pid = parseSA().project_id;
+  const r = await fetch(`https://identitytoolkit.googleapis.com/v1/projects/${pid}/${path}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + tok.access_token },
+    body: JSON.stringify(body),
+  });
+  let j = {};
+  try { j = await r.json(); } catch (e) { /* ignore */ }
+  if (!r.ok) { const e = new Error((j.error && j.error.message) || ('HTTP ' + r.status)); e.status = r.status; throw e; }
+  return j;
+}
+
+async function getUserByEmail(email) {
+  const j = await idToolkit('accounts:lookup', { email: [email] });
+  const u = (j.users || [])[0];
+  return u ? { uid: u.localId, email: u.email } : null;
+}
+
+async function setPassword(uid, password) {
+  return idToolkit('accounts:update', { localId: uid, password });
 }
 
 let _db = null;
@@ -42,4 +63,4 @@ function getMailer() {
   });
 }
 
-module.exports = { sha, crypto, getAuthAdmin, getDb, fieldValue, getMailer };
+module.exports = { sha, crypto, getUserByEmail, setPassword, getDb, fieldValue, getMailer };
