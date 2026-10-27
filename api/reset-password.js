@@ -1,5 +1,5 @@
 // POST /api/reset-password  { email, otp, password }  -> sets the new password if the OTP is right
-const { sha, getAdmin } = require('./_lib');
+const { sha, getAdmin, getRestDb } = require('./_lib');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ code: 'method' });
@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
     const password = String(b.password || '');
     if (password.length < 6) return res.status(400).json({ code: 'weak' });
 
-    const ref = admin.firestore().collection('otps').doc(sha(email));
+    const ref = getRestDb().collection('otps').doc(sha(email));
     const snap = await ref.get();
     const d = snap.exists ? snap.data() : null;
     if (!d || d.exp < Date.now()) return res.status(400).json({ code: 'expired' });

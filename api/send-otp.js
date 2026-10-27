@@ -1,6 +1,7 @@
 // POST /api/send-otp  { email }  -> emails a 6-digit OTP (valid 10 minutes)
 // GET  /api/send-otp?check=1     -> setup check (shows only true/false, never secrets)
-const { sha, crypto, getAdmin, getMailer } = require('./_lib');
+const { sha, crypto, getAdmin, getRestDb, getMailer } = require('./_lib');
+const short = (e) => (String(e && e.message || e) + ' | ' + String((e && e.stack) || '').split('\n').slice(1, 3).join(' ').trim()).slice(0, 320);
 
 module.exports = async (req, res) => {
   if (req.method === 'GET' && req.query && req.query.check) {
@@ -8,8 +9,9 @@ module.exports = async (req, res) => {
     try { JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT); out.serviceAccountJson = true; } catch (e) { out.serviceAccountJson = false; }
     try { require('firebase-admin'); out.firebaseAdminInstalled = true; } catch (e) { out.firebaseAdminInstalled = false; }
     try { require('nodemailer'); out.nodemailerInstalled = true; } catch (e) { out.nodemailerInstalled = false; }
-    try { const a = getAdmin(); await a.firestore().collection('otps').limit(1).get(); out.firestore = 'ok'; }
-    catch (e) { out.firestore = 'ERROR: ' + String(e.message || e).slice(0, 200); }
+    try { const a = getAdmin(); await a.auth().listUsers(1); out.auth = 'ok'; } catch (e) { out.auth = 'ERROR: ' + short(e); }
+    try { const a = getAdmin(); await a.firestore().collection('otps').limit(1).get(); out.firestoreGrpc = 'ok'; } catch (e) { out.firestoreGrpc = 'ERROR: ' + short(e); }
+    try { await getRestDb().collection('otps').limit(1).get(); out.firestoreRest = 'ok'; } catch (e) { out.firestoreRest = 'ERROR: ' + short(e); }
     return res.status(200).json(out);
   }
   if (req.method !== 'POST') return res.status(405).json({ code: 'method' });
@@ -22,7 +24,7 @@ module.exports = async (req, res) => {
     try { user = await admin.auth().getUserByEmail(email); }
     catch (e) { return res.status(404).json({ code: 'no-user' }); }
 
-    const ref = admin.firestore().collection('otps').doc(sha(email));
+    const ref = getRestDb().collection('otps').doc(sha(email));
     const snap = await ref.get();
     const now = Date.now();
     if (snap.exists && now - (snap.data().sentAt || 0) < 60000) return res.status(429).json({ code: 'wait' });
