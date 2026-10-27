@@ -1,18 +1,25 @@
-const admin = require('firebase-admin');
-const nodemailer = require('nodemailer');
+// Shared helpers. Everything is loaded lazily so a config mistake returns a readable error instead of crashing.
 const crypto = require('crypto');
+const sha = (s) => crypto.createHash('sha256').update(s).digest('hex');
 
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)),
-  });
+function getAdmin() {
+  const admin = require('firebase-admin');
+  if (!admin.apps.length) {
+    let sa;
+    try { sa = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT); }
+    catch (e) { throw new Error('FIREBASE_SERVICE_ACCOUNT is missing or not valid JSON'); }
+    if (sa.private_key) sa.private_key = sa.private_key.replace(/\\n/g, '\n');
+    admin.initializeApp({ credential: admin.credential.cert(sa) });
+  }
+  return admin;
 }
 
-const sha = (s) => crypto.createHash('sha256').update(s).digest('hex');
-const mailer = () =>
-  nodemailer.createTransport({
+function getMailer() {
+  const nodemailer = require('nodemailer');
+  return nodemailer.createTransport({
     service: 'gmail',
     auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
   });
+}
 
-module.exports = { admin, sha, mailer, crypto };
+module.exports = { sha, crypto, getAdmin, getMailer };

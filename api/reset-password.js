@@ -1,8 +1,10 @@
-const { admin, sha } = require('./_lib');
+// POST /api/reset-password  { email, otp, password }  -> sets the new password if the OTP is right
+const { sha, getAdmin } = require('./_lib');
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ code: 'method' });
   try {
+    const admin = getAdmin();
     const b = req.body || {};
     const email = String(b.email || '').trim().toLowerCase();
     const otp = String(b.otp || '').trim();
@@ -20,9 +22,9 @@ module.exports = async (req, res) => {
     }
     await admin.auth().updateUser(d.uid, { password });
     await ref.delete();
-    return res.json({ ok: true });
+    return res.status(200).json({ ok: true });
   } catch (e) {
     console.error('reset-password', e);
-    return res.status(500).json({ code: 'server' });
+    return res.status(500).json({ code: 'server', detail: String(e.message || e).slice(0, 160) });
   }
 };
