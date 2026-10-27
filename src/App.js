@@ -9,7 +9,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { initializeApp } from 'firebase/app';
 import {
   getAuth, onAuthStateChanged, signInWithEmailAndPassword,
-  createUserWithEmailAndPassword, updateProfile, signOut, EmailAuthProvider, reauthenticateWithCredential, deleteUser,
+  createUserWithEmailAndPassword, updateProfile, signOut,
 } from 'firebase/auth';
 import {
   getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
@@ -41,8 +41,6 @@ const UPDATE_URL = '/version.json';
 const APK_URL = '';
 const APP_NAME = 'Business Calculator Book';
 // OTP সার্ভার-ফাংশনের ঠিকানা। ওয়েবে ফাঁকা থাকবে। মোবাইল APK তে নিজের সাইটের পুরো লিংক দিন (যেমন 'https://hishab-khata.vercel.app')
-// পাসওয়ার্ড ঘর type=password না হলে ব্রাউজার তা অটোফিল/সেভ করে না; -webkit-text-security দিয়ে বিন্দু দেখানো হয়
-const MASK_OK = typeof CSS !== 'undefined' && !!CSS.supports && CSS.supports('-webkit-text-security', 'disc');
 const API_BASE = '';
 
 const CONFIGURED = !String(firebaseConfig.apiKey).startsWith('YOUR');
@@ -82,7 +80,7 @@ const L = {
     types: { product: 'পণ্য', sale: 'লেনদেন', ret: 'রিটার্ন', exp: 'খরচ', note: 'নোট', biz: 'বিজনেস' },
     tagline: 'আপনার ডিজিটাল হিসাব খাতা', loading: 'লোড হচ্ছে...', online: 'অনলাইন — সব ডিভাইসে সিঙ্ক চালু',
     offline: 'অফলাইন — নেট এলে অটো সিঙ্ক হবে', setup: '⚠️ Firebase কনফিগ বসানো হয়নি। App.js এর উপরে firebaseConfig দিন।',
-    delForever: 'চিরতরে মুছবেন?', date: 'তারিখ', showPw: 'পাসওয়ার্ড দেখান', delAcc: 'অ্যাকাউন্ট ডিলিট করুন', delAccWarn: 'আপনার অ্যাকাউন্ট আর সব ডেটা (বিজনেস, স্টক, লেনদেন, রিসাইকেল বিনসহ) চিরতরে মুছে যাবে। এটা আর ফেরানো যাবে না। পরে চাইলে এই ইমেইল দিয়ে নতুন করে অ্যাকাউন্ট খুলতে পারবেন।', delAccPass: 'নিশ্চিত করতে আপনার পাসওয়ার্ড দিন', delAccBtn: 'হ্যাঁ, চিরতরে মুছুন', accDeleted: 'অ্যাকাউন্ট মুছে গেছে। চাইলে একই ইমেইলে নতুন অ্যাকাউন্ট খুলুন', verifyBtn: 'যাচাই করে অ্যাকাউন্ট খুলুন', otpSent: 'OTP আপনার ইমেইলে পাঠানো হয়েছে (Spam-ও দেখুন)', otpPh: 'ইমেইলে আসা ৬ সংখ্যার OTP', newPass: 'নতুন পাসওয়ার্ড', sendOtp: 'OTP পাঠান', resetBtn: 'পাসওয়ার্ড বদলান', resend: 'আবার OTP পাঠান', backLogin: '← লগইনে ফিরুন', passChanged: 'পাসওয়ার্ড বদলানো হয়েছে', e_nouser: 'এই ইমেইলে কোনো অ্যাকাউন্ট নেই', e_wait: '১ মিনিট পরে আবার চেষ্টা করুন', e_exp: 'OTP মেয়াদ শেষ, আবার OTP নিন', e_otp: 'OTP ভুল', e_many: 'অনেকবার ভুল হয়েছে, আবার OTP নিন',
+    delForever: 'চিরতরে মুছবেন?', date: 'তারিখ', showPw: 'পাসওয়ার্ড দেখান', otpSent: 'OTP আপনার ইমেইলে পাঠানো হয়েছে (Spam-ও দেখুন)', otpPh: 'ইমেইলে আসা ৬ সংখ্যার OTP', newPass: 'নতুন পাসওয়ার্ড', sendOtp: 'OTP পাঠান', resetBtn: 'পাসওয়ার্ড বদলান', resend: 'আবার OTP পাঠান', backLogin: '← লগইনে ফিরুন', passChanged: 'পাসওয়ার্ড বদলানো হয়েছে', e_nouser: 'এই ইমেইলে কোনো অ্যাকাউন্ট নেই', e_wait: '১ মিনিট পরে আবার চেষ্টা করুন', e_exp: 'OTP মেয়াদ শেষ, আবার OTP নিন', e_otp: 'OTP ভুল', e_many: 'অনেকবার ভুল হয়েছে, আবার OTP নিন',
     e_wrong: 'ইমেইল বা পাসওয়ার্ড ভুল। ইমেইলের বানান দেখুন। আগে রেজিস্টার না করলে নিচে "রেজিস্টার" চাপুন', e_exists: 'এই ইমেইল দিয়ে আগেই অ্যাকাউন্ট আছে', e_weak: 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষর দিন',
     e_net: 'ইন্টারনেট সংযোগ নেই', e_mail: 'ইমেইল সঠিক নয়', e_other: 'কিছু একটা সমস্যা হয়েছে',
   },
@@ -109,7 +107,7 @@ const L = {
     types: { product: 'Product', sale: 'Transaction', ret: 'Return', exp: 'Expense', note: 'Note', biz: 'Business' },
     tagline: 'Your digital account book', loading: 'Loading...', online: 'Online — synced on all devices',
     offline: 'Offline — will sync when online', setup: '⚠️ Firebase config missing. Fill firebaseConfig at the top of App.js.',
-    delForever: 'Delete forever?', date: 'Date', showPw: 'Show password', delAcc: 'Delete account', delAccWarn: 'Your account and ALL data (businesses, stock, transactions, recycle bin) will be permanently deleted. This cannot be undone. You can create a new account with this email later.', delAccPass: 'Enter your password to confirm', delAccBtn: 'Yes, delete forever', accDeleted: 'Account deleted. You can register again with the same email', verifyBtn: 'Verify & create account', otpSent: 'OTP sent to your email (check Spam too)', otpPh: '6-digit OTP from email', newPass: 'New password', sendOtp: 'Send OTP', resetBtn: 'Change password', resend: 'Resend OTP', backLogin: '← Back to login', passChanged: 'Password changed', e_nouser: 'No account with this email', e_wait: 'Try again after 1 minute', e_exp: 'OTP expired, request a new one', e_otp: 'Wrong OTP', e_many: 'Too many wrong tries, request a new OTP',
+    delForever: 'Delete forever?', date: 'Date', showPw: 'Show password', otpSent: 'OTP sent to your email (check Spam too)', otpPh: '6-digit OTP from email', newPass: 'New password', sendOtp: 'Send OTP', resetBtn: 'Change password', resend: 'Resend OTP', backLogin: '← Back to login', passChanged: 'Password changed', e_nouser: 'No account with this email', e_wait: 'Try again after 1 minute', e_exp: 'OTP expired, request a new one', e_otp: 'Wrong OTP', e_many: 'Too many wrong tries, request a new OTP',
     e_wrong: 'Wrong email or password. Check the email spelling. If you never registered, tap Register', e_exists: 'An account with this email already exists', e_weak: 'Password must be at least 6 characters',
     e_net: 'No internet connection', e_mail: 'Invalid email', e_other: 'Something went wrong',
   },
@@ -154,7 +152,10 @@ const CSS = `
 .bcb button{cursor:pointer;border:0}
 .wrap{max-width:1150px;margin:0 auto;padding:12px 12px 48px}
 /* ---------- ডেস্কটপ: পুরো স্ক্রিন জুড়ে বড় করে দেখানো (মোবাইলে কোনো পরিবর্তন নেই) ---------- */
-@media(min-width:1000px){.wrap{max-width:none;width:100%;padding:18px 3vw 60px}}
+@media(min-width:1000px){.wrap{max-width:none;width:100%;padding:18px 3vw 60px;zoom:1.2}}
+@media(min-width:1500px){.wrap{zoom:1.4;padding:18px 3vw 60px}}
+@media(min-width:1900px){.wrap{zoom:1.65}}
+@media(min-width:2400px){.wrap{zoom:2}}
 @media(min-width:1000px){.tabs{justify-content:flex-start}}
 html,body,#root{width:100%!important;max-width:none!important;margin:0!important;padding:0!important;display:block!important;text-align:left}
 .bcb{width:100%!important;max-width:none!important}
@@ -229,7 +230,6 @@ html,body,#root{width:100%!important;max-width:none!important;margin:0!important
 .auth h2{text-align:center;color:var(--ac);margin-bottom:6px}
 .auth p{text-align:center;color:var(--mut);font-size:13px;margin-bottom:16px}
 .auth input{margin-bottom:12px}
-.pwmask{-webkit-text-security:disc}
 .showpw{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mut);margin-bottom:12px}
 .showpw input{width:auto;margin:0;padding:0}
 .link{background:none;color:var(--ac);text-decoration:underline;margin-top:12px;width:100%;font-size:14px}
@@ -362,7 +362,6 @@ export default function App() {
   const [calcDone, setCalcDone] = useState(false);
   const [calcPrev, setCalcPrev] = useState('');
   const calcKeyRef = useRef(null);
-  const deletingRef = useRef(false);   // অ্যাকাউন্ট মোছার সময় ডিফল্ট বিজনেস আবার তৈরি হওয়া আটকায়
   const [modal, setModal] = useState(null);
   const [toastMsg, setToastMsg] = useState('');
   const [upd, setUpd] = useState(null);
@@ -372,7 +371,6 @@ export default function App() {
   const [busy, setBusy] = useState(false);
   const [dn, setDn] = useState('');
   const [showPw, setShowPw] = useState(false);
-  const [dp, setDp] = useState('');
   const [vw, setVw] = useState(typeof window !== 'undefined' ? window.innerWidth : 1000);
   useEffect(() => {
     const f = () => setVw(window.innerWidth);
@@ -478,7 +476,7 @@ export default function App() {
 
   /* ---- প্রথমবার লগইনে ডিফল্ট বিজনেস ---- */
   useEffect(() => {
-    if (user && loaded && !fromCache && bizAll.length === 0 && !deletingRef.current) {
+    if (user && loaded && !fromCache && bizAll.length === 0) {
       const b = writeBatch(db);
       b.set(rc('biz_main'), { kind: 'biz', name: 'My Business', del: false, ts: Date.now() });
       b.commit().catch(() => {});
@@ -508,13 +506,13 @@ export default function App() {
   const apiPost = async (path, body) => {
     const r = await fetch(API_BASE + '/api/' + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     let j = {}; try { j = await r.json(); } catch (e) { /* ignore */ }
-    if (!r.ok) { const er = new Error(j.code || 'server'); er.apiCode = j.code || 'server'; er.detail = j.detail || ''; throw er; }
+    if (!r.ok) { const er = new Error(j.code || 'server'); er.apiCode = j.code || 'server'; throw er; }
     return j;
   };
   const otpErr = (e) => {
     if (!e.apiCode) return t('e_net');
-    const m = { 'no-user': 'e_nouser', wait: 'e_wait', expired: 'e_exp', 'bad-otp': 'e_otp', 'too-many': 'e_many', weak: 'e_weak', 'invalid-email': 'e_mail', exists: 'e_exists' };
-    return m[e.apiCode] ? t(m[e.apiCode]) : t('e_other') + (e.detail ? ' (' + e.detail + ')' : '');
+    const m = { 'no-user': 'e_nouser', wait: 'e_wait', expired: 'e_exp', 'bad-otp': 'e_otp', 'too-many': 'e_many', weak: 'e_weak', 'invalid-email': 'e_mail' };
+    return t(m[e.apiCode] || 'e_other');
   };
   const doSendOtp = async () => {
     const email = af.email.trim().toLowerCase();
@@ -536,32 +534,9 @@ export default function App() {
     } catch (err) { toast(err.apiCode || !err.code ? otpErr(err) : errMsg(err)); }
     setBusy(false);
   };
-  const doRegSend = async () => {
-    const email = af.email.trim().toLowerCase(), name = af.name.trim();
-    if (!email || !af.pass || !name) return toast(t('fill'));
-    if (af.pass.length < 6) return toast(t('e_weak'));
-    setBusy(true);
-    try { await apiPost('send-otp', { email, purpose: 'register' }); setAf({ ...af, email, otp: '' }); setAMode('verify'); toast(t('otpSent')); }
-    catch (err) { toast(otpErr(err)); }
-    setBusy(false);
-  };
-  const doRegVerify = async () => {
-    const email = af.email.trim().toLowerCase();
-    if (af.otp.length !== 6) return toast(t('fill'));
-    setBusy(true);
-    try {
-      await apiPost('register', { email, otp: af.otp, password: af.pass, name: af.name.trim() });
-      setDn(af.name.trim());
-      await signInWithEmailAndPassword(auth, email, af.pass);
-      setAf({ name: '', email: '', pass: '', otp: '' }); setAMode('login');
-    } catch (err) { toast(err.apiCode || !err.code ? otpErr(err) : errMsg(err)); }
-    setBusy(false);
-  };
   const doAuth = async (e) => {
     e.preventDefault();
     if (aMode === 'forgot') return doSendOtp();
-    if (aMode === 'register') return doRegSend();
-    if (aMode === 'verify') return doRegVerify();
     if (aMode === 'reset') return doReset();
     const email = af.email.trim().toLowerCase(), pass = af.pass, name = af.name.trim();
     if (!email || !pass || (aMode === 'register' && !name)) return toast(t('fill'));
@@ -579,28 +554,6 @@ export default function App() {
     setBusy(false);
   };
   const doLogout = async () => { setModal(null); await signOut(auth); };
-  const doDeleteAccount = async () => {
-    if (!dp) return toast(t('fill'));
-    setBusy(true);
-    deletingRef.current = true;
-    try {
-      // ১) পাসওয়ার্ড দিয়ে আবার যাচাই (Firebase এটা চায়)
-      await reauthenticateWithCredential(auth.currentUser, EmailAuthProvider.credential(user.email, dp));
-      // ২) সব ডেটা মোছা (বিজনেস, পণ্য, লেনদেন, রিসাইকেল বিন সব)
-      const ids = recs.map((r) => r.id);
-      for (let i = 0; i < ids.length; i += 400) {
-        const b = writeBatch(db);
-        ids.slice(i, i + 400).forEach((id) => b.delete(rc(id)));
-        await b.commit();
-      }
-      // ৩) অ্যাকাউন্ট মোছা — একই ইমেইলে পরে আবার রেজিস্টার করা যাবে
-      await deleteUser(auth.currentUser);
-      setDp(''); setModal(null); setAMode('register');
-      toast(t('accDeleted'));
-    } catch (err) { toast(errMsg(err)); }
-    deletingRef.current = false;
-    setBusy(false);
-  };
 
   /* ============ প্রোডাক্ট ============ */
   const addProduct = () => {
@@ -797,26 +750,25 @@ export default function App() {
       <>
         <div className="glow" style={{ width: 300, height: 300, background: '#f97316', top: -80, right: -80 }} />
         <div className="glow" style={{ width: 260, height: 260, background: '#fbbf24', bottom: -90, left: -70 }} />
-        <form className="auth" onSubmit={doAuth} autoComplete="off">
+        <form className="auth" onSubmit={doAuth}>
           <div className="card">
             <div style={{ textAlign: 'center', marginBottom: 10 }}><span className="logo" style={{ display: 'inline-grid' }}>🧮</span></div>
             <h2>{APP_NAME}</h2>
             <p>{L.bn.tagline}</p>
             {!CONFIGURED && <div className="warn">{t('setup')}</div>}
-            {(reg || aMode === 'verify') && <input name="fld-nm-x" autoComplete="off" data-lpignore="true" data-1p-ignore="true" readOnly={aMode === 'verify'} placeholder={t('yourName')} value={af.name} onChange={(e) => setAf({ ...af, name: e.target.value })} />}
-            <input type="text" inputMode="email" name="fld-em-x" autoComplete="off" data-lpignore="true" data-1p-ignore="true" data-form-type="other" autoCapitalize="none" autoCorrect="off" spellCheck={false} readOnly={aMode === 'reset' || aMode === 'verify'} placeholder={t('email')} value={af.email} onChange={(e) => setAf({ ...af, email: e.target.value.replace(/\s/g, '') })} />
-            {(aMode === 'reset' || aMode === 'verify') && <input inputMode="numeric" maxLength={6} name="fld-otp-x" autoComplete="off" data-lpignore="true" placeholder={t('otpPh')} value={af.otp} onChange={(e) => setAf({ ...af, otp: e.target.value.replace(/\D/g, '') })} />}
-            {aMode !== 'forgot' && aMode !== 'verify' && (
+            {reg && <input placeholder={t('yourName')} value={af.name} onChange={(e) => setAf({ ...af, name: e.target.value })} />}
+            <input type="email" autoComplete="email" autoCapitalize="none" autoCorrect="off" spellCheck={false} readOnly={aMode === 'reset'} placeholder={t('email')} value={af.email} onChange={(e) => setAf({ ...af, email: e.target.value.replace(/\s/g, '') })} />
+            {aMode === 'reset' && <input inputMode="numeric" maxLength={6} autoComplete="one-time-code" placeholder={t('otpPh')} value={af.otp} onChange={(e) => setAf({ ...af, otp: e.target.value.replace(/\D/g, '') })} />}
+            {aMode !== 'forgot' && (
               <>
-                <input type={showPw || MASK_OK ? 'text' : 'password'} className={!showPw && MASK_OK ? 'pwmask' : ''} name="fld-pw-x" autoComplete="off" data-lpignore="true" data-1p-ignore="true" data-form-type="other" autoCapitalize="none" autoCorrect="off" spellCheck={false} placeholder={aMode === 'reset' ? t('newPass') : t('password')} value={af.pass} onChange={(e) => setAf({ ...af, pass: e.target.value })} />
+                <input type={showPw ? 'text' : 'password'} autoComplete={reg || aMode === 'reset' ? 'new-password' : 'current-password'} autoCapitalize="none" autoCorrect="off" spellCheck={false} placeholder={aMode === 'reset' ? t('newPass') : t('password')} value={af.pass} onChange={(e) => setAf({ ...af, pass: e.target.value })} />
                 <label className="showpw"><input type="checkbox" checked={showPw} onChange={(e) => setShowPw(e.target.checked)} />{t('showPw')}</label>
               </>
             )}
-            <button className="btn full" type="submit" disabled={busy}>{busy ? '...' : aMode === 'verify' ? t('verifyBtn') : reg ? t('register') : aMode === 'forgot' ? t('sendOtp') : aMode === 'reset' ? t('resetBtn') : t('login')}</button>
+            <button className="btn full" type="submit" disabled={busy}>{busy ? '...' : reg ? t('register') : aMode === 'forgot' ? t('sendOtp') : aMode === 'reset' ? t('resetBtn') : t('login')}</button>
             {aMode === 'login' && <button type="button" className="link" onClick={() => setAMode('forgot')}>{t('forgot')}</button>}
             {aMode === 'reset' && <button type="button" className="link" onClick={doSendOtp}>{t('resend')}</button>}
-            {aMode === 'verify' && <button type="button" className="link" onClick={doRegSend}>{t('resend')}</button>}
-            {aMode === 'forgot' || aMode === 'reset' || aMode === 'verify'
+            {aMode === 'forgot' || aMode === 'reset'
               ? <button type="button" className="link" onClick={() => setAMode('login')}>{t('backLogin')}</button>
               : <button type="button" className="link" onClick={() => setAMode(reg ? 'login' : 'register')}>{reg ? t('haveAcc') : t('noAcc')}</button>}
           </div>
@@ -1040,7 +992,6 @@ export default function App() {
             <div className="muted" style={{ margin: '6px 0 10px' }}>{APP_NAME}<br />{t('version')}: v{VERSION}</div>
             <button className="btn ghost" onClick={() => checkUpdate(false)}>🔄 {t('checkUpdate')}</button></div>
           <button className="btn red full" style={{ marginTop: 6 }} onClick={doLogout}>{t('logout')}</button>
-          <button className="btn ghost full" style={{ marginTop: 8, color: 'var(--red)' }} onClick={() => { setDp(''); setModal('delAcc'); }}>🗑 {t('delAcc')}</button>
           <button className="btn ghost full" style={{ marginTop: 8 }} onClick={() => setModal(null)}>{t('cancel')}</button>
         </>
       );
@@ -1061,20 +1012,6 @@ export default function App() {
             </>
           )}
           <button className="btn ghost full" style={{ marginTop: 10 }} onClick={() => setModal('settings')}>←</button>
-        </>
-      );
-    } else if (m === 'delAcc') {
-      body = (
-        <>
-          <h2 style={{ color: 'var(--red)' }}>⚠️ {t('delAcc')}</h2>
-          <div className="muted" style={{ lineHeight: 1.6, marginBottom: 6 }}>{t('delAccWarn')}</div>
-          <div className="muted">{user.email}</div>
-          <label>{t('delAccPass')}</label>
-          <input type="password" autoComplete="current-password" value={dp} onChange={(e) => setDp(e.target.value)} />
-          <div className="row" style={{ marginTop: 14 }}>
-            <button className="btn red" onClick={doDeleteAccount} disabled={busy}>{busy ? '...' : t('delAccBtn')}</button>
-            <button className="btn ghost" onClick={() => setModal('settings')}>{t('cancel')}</button>
-          </div>
         </>
       );
     } else if (m === 'addBiz') {
@@ -1118,8 +1055,8 @@ export default function App() {
 
   /* ---------------- মূল পেজ ---------------- */
   // ডেস্কটপে পুরো স্ক্রিন জুড়ে বড় করে দেখানো (মোবাইলে কিছু বদলায় না)
-  const scale = vw >= 2400 ? 1.5 : vw >= 1900 ? 1.25 : vw >= 1500 ? 1.05 : vw >= 1000 ? 0.9 : 1;
-  const wrapStyle = vw >= 1000 ? { maxWidth: 'none', width: '100%', zoom: scale, padding: '18px 3vw 60px' } : undefined;
+  const scale = vw >= 2400 ? 2 : vw >= 1900 ? 1.65 : vw >= 1500 ? 1.4 : vw >= 1000 ? 1.2 : 1;
+  const wrapStyle = scale > 1 ? { maxWidth: 'none', width: '100%', zoom: scale, padding: '18px 3vw 60px' } : undefined;
   return root(
     <>
     <div className="wrap" style={wrapStyle}>
