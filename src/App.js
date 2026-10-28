@@ -258,6 +258,7 @@ html,body,#root{width:100%!important;max-width:none!important;margin:0!important
  100%{opacity:0;transform:translateY(-34px) scale(.88)}
 }
 .stitle{position:absolute;left:0;right:0;bottom:11%;text-align:center;opacity:0;animation:fadeUp 1s ease 1.5s both}
+img.logo{background:none!important;object-fit:cover;display:block}
 .stitle .logo{margin:0 auto 12px;width:56px;height:56px;font-size:28px;border-radius:16px}
 .stitle b{display:block;color:var(--ac);font-size:21px;letter-spacing:.2px}
 .stitle span{color:var(--mut);font-size:13px}
@@ -319,7 +320,7 @@ function Splash({ out }) {
         </div>
       ))}
       <div className="stitle">
-        <div className="logo">🧮</div>
+        <img className="logo" src="/logo-app.png" alt="" />
         <b>{APP_NAME}</b>
         <span>আপনার ডিজিটাল হিসাব খাতা</span>
       </div>
@@ -846,7 +847,7 @@ export default function App() {
         <div className="glow" style={{ width: 260, height: 260, background: '#fbbf24', bottom: -90, left: -70 }} />
         <form className="auth" onSubmit={doAuth} autoComplete="off">
           <div className="card">
-            <div style={{ textAlign: 'center', marginBottom: 10 }}><span className="logo" style={{ display: 'inline-grid' }}>🧮</span></div>
+            <div style={{ textAlign: 'center', marginBottom: 10 }}><img className="logo" src="/logo-app.png" alt="" style={{ display: 'inline-block' }} /></div>
             <h2>{APP_NAME}</h2>
             <p>{L.bn.tagline}</p>
             {!CONFIGURED && <div className="warn">{t('setup')}</div>}
@@ -1173,7 +1174,7 @@ export default function App() {
       <div className="head">
         {/* বাম পাশ: অ্যাপ আইকন + নাম — ট্যাপ করলে রিফ্রেশ */}
         <button className="brand" onClick={() => window.location.reload()}>
-          <span className="logo">🧮</span><b>{APP_NAME}</b>
+          <img className="logo" src="/logo-app.png" alt="" /><b>{APP_NAME}</b>
         </button>
         {/* ডান পাশ: বিজনেস সিলেক্টর + অ্যাড (+) + সেটিংস */}
         <div className="hleft">
