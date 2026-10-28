@@ -13,7 +13,7 @@ import {
 } from 'firebase/auth';
 import {
   getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
-  collection, doc, onSnapshot, writeBatch, increment,
+  collection, doc, onSnapshot, writeBatch, increment, getDoc,
 } from 'firebase/firestore';
 
 /* ------------------------------------------------------------------
@@ -75,7 +75,7 @@ const L = {
     noteHere: 'নোট লিখুন...', settings: 'সেটিংস', account: 'অ্যাকাউন্ট', language: 'ভাষা', theme: 'থিম মুড',
     dark: 'ডার্ক', light: 'হোয়াইট', bin: 'রিসাইকেল বিন', binEmpty: 'রিসাইকেল বিন খালি', restore: 'রিস্টোর',
     emptyBin: 'সব চিরতরে মুছুন', appInfo: 'অ্যাপ ইনফরমেশন ও আপডেট', version: 'বর্তমান ভার্সন', checkUpdate: 'চেক আপডেট',
-    upToDate: 'আপনার অ্যাপ লেটেস্ট ভার্সনে আছে', newUpdate: '🔔 নতুন আপডেট এসেছে! আপডেট করতে এখানে ট্যাপ করুন',
+    upToDate: 'আপনার অ্যাপ লেটেস্ট ভার্সনে আছে', updTitle: 'নতুন আপডেট এসেছে', updMsg: 'অ্যাপের নতুন ভার্সন পাওয়া যাচ্ছে। আপডেট করে নিন।', updNow: 'আপডেট করুন', updLater: 'পরে', newUpdate: '🔔 নতুন আপডেট এসেছে! আপডেট করতে এখানে ট্যাপ করুন',
     logout: 'লগ আউট করুন', business: 'বিজনেস', addBiz: 'নতুন বিজনেসের নাম', manageBiz: 'বিজনেস ম্যানেজ', rename: 'নাম বদলান',
     login: 'লগইন', register: 'রেজিস্টার', email: 'ইমেইল', password: 'পাসওয়ার্ড', yourName: 'আপনার নাম',
     haveAcc: 'অ্যাকাউন্ট আছে? লগইন করুন', noAcc: 'অ্যাকাউন্ট নেই? রেজিস্টার করুন', fill: 'সব ঘর পূরণ করুন',
@@ -102,7 +102,7 @@ const L = {
     noteHere: 'Write a note...', settings: 'Settings', account: 'Account', language: 'Language', theme: 'Theme',
     dark: 'Dark', light: 'White', bin: 'Recycle Bin', binEmpty: 'Recycle Bin is empty', restore: 'Restore',
     emptyBin: 'Delete all forever', appInfo: 'App Info & Update', version: 'Current version', checkUpdate: 'Check for update',
-    upToDate: 'You are on the latest version', newUpdate: '🔔 New update available! Tap here to update',
+    upToDate: 'You are on the latest version', updTitle: 'New update available', updMsg: 'A new version of the app is available. Please update.', updNow: 'Update now', updLater: 'Later', newUpdate: '🔔 New update available! Tap here to update',
     logout: 'Log out', business: 'Business', addBiz: 'New business name', manageBiz: 'Manage businesses', rename: 'Rename',
     login: 'Login', register: 'Register', email: 'Email', password: 'Password', yourName: 'Your name',
     haveAcc: 'Have an account? Login', noAcc: 'No account? Register', fill: 'Fill all fields',
@@ -124,6 +124,8 @@ const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(
 const num = (v) => { const n = parseFloat(v); return isNaN(n) ? 0 : n; };
 const money = (n) => '৳' + (Math.round(n * 100) / 100).toLocaleString('en-US');
 const sum = (a, f) => a.reduce((s, x) => s + f(x), 0);
+// APK-র বিল্ড নম্বর capacitor.config.ts এর appendUserAgent ('BCBApp/১') থেকে পড়া হয়
+const installedBuild = () => { const m = /BCBApp\/(\d+)/.exec((typeof navigator !== 'undefined' && navigator.userAgent) || ''); return m ? parseInt(m[1], 10) : 0; };
 const isNative = () => !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 
 const TABS = [
@@ -370,6 +372,8 @@ export default function App() {
   const [upd, setUpd] = useState(null);
   const [ver, setVer] = useState(VERSION);   // আসল ভার্সন public/version.json থেকে আসে
   const baseVer = useRef(null);
+  const [apkUpd, setApkUpd] = useState(null);   // APK আপডেট পপআপ (Firebase Console থেকে চালানো যায়)
+  const [apkLater, setApkLater] = useState(false);
 
   const [aMode, setAMode] = useState('login');
   const [af, setAf] = useState({ name: '', email: '', pass: '', otp: '' });
@@ -527,8 +531,8 @@ export default function App() {
 
   /* ---- আপডেট চেক (অ্যাপ খুললে সাইলেন্ট) ---- */
   useEffect(() => {
-    checkUpdate(true);
-    const onVis = () => { if (document.visibilityState === 'visible') checkUpdate(true); };
+    checkUpdate(true); checkApk();
+    const onVis = () => { if (document.visibilityState === 'visible') { checkUpdate(true); checkApk(); } };
     document.addEventListener('visibilitychange', onVis);
     return () => document.removeEventListener('visibilitychange', onVis);
     /* eslint-disable-next-line */
@@ -813,6 +817,16 @@ export default function App() {
       else if (!silent) toast(t('upToDate'));
     } catch (e) { if (!silent) toast(t('upToDate')); }
   }
+  async function checkApk() {
+    if (!isNative()) return;
+    try {
+      let d = null;
+      try { const sn = await getDoc(doc(db, 'app_config', 'update')); if (sn.exists()) d = sn.data(); } catch (e) { /* Firestore নিয়ম না থাকলে নিচের ফাইল */ }
+      if (!d) { const r = await fetch(SITE_URL + '/update.json?' + Date.now(), { cache: 'no-store' }); d = await r.json(); }
+      if (d && d.apkUrl && Number(d.apkBuild) > installedBuild()) setApkUpd(d);
+      else setApkUpd(null);
+    } catch (e) { /* ignore */ }
+  }
   const applyUpdate = async () => {
     if (isNative() && (upd?.apk || APK_URL)) { window.open(upd?.apk || APK_URL, '_system'); return; }
     try {
@@ -831,6 +845,17 @@ export default function App() {
       {children}
       {splash !== 'done' && <Splash out={splash === 'out'} />}
       {toastMsg && <div className="toast">{toastMsg}</div>}
+      {apkUpd && (apkUpd.force || !apkLater) && (
+        <div className="modal" style={{ zIndex: 400 }}>
+          <div className="mbox" style={{ textAlign: 'center', maxWidth: 340 }}>
+            <img className="logo" src="/logo-app.png" alt="" style={{ margin: '0 auto 12px', width: 56, height: 56, borderRadius: 16 }} />
+            <h2>🔔 {apkUpd.title || t('updTitle')}</h2>
+            <div className="muted" style={{ lineHeight: 1.6, marginBottom: 14 }}>{apkUpd.message || t('updMsg')}</div>
+            <a className="btn full" href={apkUpd.apkUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none', textAlign: 'center' }}>{t('updNow')}</a>
+            {!apkUpd.force && <button className="btn ghost full" style={{ marginTop: 8 }} onClick={() => setApkLater(true)}>{t('updLater')}</button>}
+          </div>
+        </div>
+      )}
     </div>
   );
 
