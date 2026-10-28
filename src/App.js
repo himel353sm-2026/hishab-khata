@@ -124,8 +124,10 @@ const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(
 const num = (v) => { const n = parseFloat(v); return isNaN(n) ? 0 : n; };
 const money = (n) => '৳' + (Math.round(n * 100) / 100).toLocaleString('en-US');
 const sum = (a, f) => a.reduce((s, x) => s + f(x), 0);
-// APK-র বিল্ড নম্বর capacitor.config.ts এর appendUserAgent ('BCBApp/১') থেকে পড়া হয়
-const installedBuild = () => { const m = /BCBApp\/(\d+)/.exec((typeof navigator !== 'undefined' && navigator.userAgent) || ''); return m ? parseInt(m[1], 10) : 0; };
+// APK-র ভার্সন capacitor.config.ts এর appendUserAgent ('BCBApp/1.0.5') থেকে পড়া হয়
+const installedVer = () => { const m = /BCBApp\/([\d.]+)/.exec((typeof navigator !== 'undefined' && navigator.userAgent) || ''); return m ? m[1] : null; };
+const verParts = (v) => String(v || '').trim().replace(/^v/i, '').split('.').map((x) => parseInt(x, 10) || 0);
+const verNewer = (a, b) => { const x = verParts(a), y = verParts(b); for (let i = 0; i < Math.max(x.length, y.length); i++) { const d = (x[i] || 0) - (y[i] || 0); if (d) return d > 0; } return false; };
 const isNative = () => !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 
 const TABS = [
@@ -819,11 +821,13 @@ export default function App() {
   }
   async function checkApk() {
     if (!isNative()) return;
+    const have = installedVer();
+    if (!have) return;   // পুরনো APK (চিহ্ন নেই): ভুল পপআপ এড়াতে কিছু দেখানো হবে না
     try {
       let d = null;
-      try { const sn = await getDoc(doc(db, 'app_config', 'update')); if (sn.exists()) d = sn.data(); } catch (e) { /* Firestore নিয়ম না থাকলে নিচের ফাইল */ }
+      try { const sn = await getDoc(doc(db, 'artifacts', 'appConfig')); if (sn.exists()) d = sn.data(); } catch (e) { /* Firestore না পেলে নিচের ফাইল */ }
       if (!d) { const r = await fetch(SITE_URL + '/update.json?' + Date.now(), { cache: 'no-store' }); d = await r.json(); }
-      if (d && d.apkUrl && Number(d.apkBuild) > installedBuild()) setApkUpd(d);
+      if (d && d.downloadUrl && verNewer(d.latestVersion, have)) setApkUpd(d);
       else setApkUpd(null);
     } catch (e) { /* ignore */ }
   }
@@ -851,7 +855,7 @@ export default function App() {
             <img className="logo" src="/logo-app.png" alt="" style={{ margin: '0 auto 12px', width: 56, height: 56, borderRadius: 16 }} />
             <h2>🔔 {apkUpd.title || t('updTitle')}</h2>
             <div className="muted" style={{ lineHeight: 1.6, marginBottom: 14 }}>{apkUpd.message || t('updMsg')}</div>
-            <a className="btn full" href={apkUpd.apkUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none', textAlign: 'center' }}>{t('updNow')}</a>
+            <a className="btn full" href={apkUpd.downloadUrl} target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none', textAlign: 'center' }}>{t('updNow')}</a>
             {!apkUpd.force && <button className="btn ghost full" style={{ marginTop: 8 }} onClick={() => setApkLater(true)}>{t('updLater')}</button>}
           </div>
         </div>

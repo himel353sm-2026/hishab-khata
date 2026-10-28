@@ -1,6 +1,6 @@
 {
-  "apkBuild": 1,
-  "apkUrl": "",
+  "latestVersion": "v1.0.5",
+  "downloadUrl": "",
   "title": "",
   "message": "",
   "force": false
