@@ -38,9 +38,12 @@ const firebaseConfig = {
    ------------------------------------------------------------------ */
 const VERSION = '1.0.0';
 const UPDATE_URL = '/version.json';
+const SITE_URL = 'https://hishab-khata-two.vercel.app';   // মোবাইল অ্যাপ এই সাইট থেকে ভার্সন দেখে
 const APK_URL = '';
 const APP_NAME = 'Business Calculator Book';
 // OTP সার্ভার-ফাংশনের ঠিকানা। ওয়েবে ফাঁকা থাকবে। মোবাইল APK তে নিজের সাইটের পুরো লিংক দিন (যেমন 'https://hishab-khata.vercel.app')
+// পাসওয়ার্ড ঘর type=password না হলে ব্রাউজার তা অটোফিল/সেভ করে না; -webkit-text-security দিয়ে বিন্দু দেখানো হয়
+const MASK_OK = typeof CSS !== 'undefined' && !!CSS.supports && CSS.supports('-webkit-text-security', 'disc');
 const API_BASE = '';
 
 const CONFIGURED = !String(firebaseConfig.apiKey).startsWith('YOUR');
@@ -227,6 +230,7 @@ html,body,#root{width:100%!important;max-width:none!important;margin:0!important
 .auth h2{text-align:center;color:var(--ac);margin-bottom:6px}
 .auth p{text-align:center;color:var(--mut);font-size:13px;margin-bottom:16px}
 .auth input{margin-bottom:12px}
+.pwmask{-webkit-text-security:disc}
 .showpw{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mut);margin-bottom:12px}
 .showpw input{width:auto;margin:0;padding:0}
 .link{background:none;color:var(--ac);text-decoration:underline;margin-top:12px;width:100%;font-size:14px}
@@ -363,6 +367,8 @@ export default function App() {
   const [modal, setModal] = useState(null);
   const [toastMsg, setToastMsg] = useState('');
   const [upd, setUpd] = useState(null);
+  const [ver, setVer] = useState(VERSION);   // আসল ভার্সন public/version.json থেকে আসে
+  const baseVer = useRef(null);
 
   const [aMode, setAMode] = useState('login');
   const [af, setAf] = useState({ name: '', email: '', pass: '', otp: '' });
@@ -376,6 +382,41 @@ export default function App() {
     window.addEventListener('resize', f);
     return () => window.removeEventListener('resize', f);
   }, []);
+
+  // মোবাইল অ্যাপে স্ট্যাটাস বার (সময়/ওয়াইফাই/চার্জ) এর নিচে থেকে কনটেন্ট শুরু করার জন্য
+  const [topPad, setTopPad] = useState(0);
+  useEffect(() => {
+    try {
+      const w = window;
+      const native = !!(w.Capacitor && w.Capacitor.isNativePlatform && w.Capacitor.isNativePlatform())
+        || (w.matchMedia && w.matchMedia('(display-mode: standalone)').matches)
+        || /; wv\)/.test(navigator.userAgent || '');
+      const probe = document.createElement('div');
+      probe.style.cssText = 'position:fixed;top:0;left:0;visibility:hidden;padding-top:env(safe-area-inset-top,0px)';
+      document.body.appendChild(probe);
+      const inset = parseFloat(getComputedStyle(probe).paddingTop) || 0;
+      document.body.removeChild(probe);
+      setTopPad(inset > 0 ? inset : native ? 34 : 0);
+    } catch (e) { /* ignore */ }
+  }, []);
+
+  // লগইন/রেজিস্টার ঘর: ব্রাউজারের অটোফিল ঠেকানো ও মোড বদলালে সব মুছে ফেলা
+  const typedRef = useRef(false);
+  const emptyAf = { name: '', email: '', pass: '', otp: '' };
+  const switchMode = (m) => { typedRef.current = false; setAf(emptyAf); setShowPw(false); setAMode(m); };
+  const onField = (key, fn) => (e) => {
+    const it = e.nativeEvent && e.nativeEvent.inputType;
+    if (it === 'insertReplacementText') return;   // ব্রাউজার অটোফিল — গ্রহণ করা হবে না
+    typedRef.current = true;
+    fn(e.target.value);
+  };
+  useEffect(() => {
+    if (aMode !== 'login' && aMode !== 'register') return undefined;
+    typedRef.current = false;
+    const clr = () => { if (!typedRef.current) setAf((p) => (p.email || p.pass || p.name ? { ...p, name: '', email: '', pass: '' } : p)); };
+    const ids = [120, 500, 1200, 2500].map((ms) => setTimeout(clr, ms));
+    return () => ids.forEach(clearTimeout);
+  }, [aMode]);
 
   const [pf, setPf] = useState({ name: '', buy: '', sell: '', stock: '' });
   const [sf, setSf] = useState({ pid: '', qty: '1', price: '' });
@@ -484,7 +525,13 @@ export default function App() {
   }, [user, loaded, fromCache, bizAll.length]);
 
   /* ---- আপডেট চেক (অ্যাপ খুললে সাইলেন্ট) ---- */
-  useEffect(() => { checkUpdate(true); /* eslint-disable-next-line */ }, []);
+  useEffect(() => {
+    checkUpdate(true);
+    const onVis = () => { if (document.visibilityState === 'visible') checkUpdate(true); };
+    document.addEventListener('visibilitychange', onVis);
+    return () => document.removeEventListener('visibilitychange', onVis);
+    /* eslint-disable-next-line */
+  }, []);
 
   /* ============ Firestore হেল্পার ============ */
   const rc = (id) => doc(db, 'users', user.uid, 'records', id);
@@ -575,7 +622,7 @@ export default function App() {
     } catch (err) { toast(errMsg(err)); }
     setBusy(false);
   };
-  const doLogout = async () => { setModal(null); await signOut(auth); };
+  const doLogout = async () => { setModal(null); setAf({ name: '', email: '', pass: '', otp: '' }); setShowPw(false); setAMode('login'); await signOut(auth); };
   const doDeleteAccount = async () => {
     if (!dp) return toast(t('fill'));
     setBusy(true);
@@ -756,9 +803,12 @@ export default function App() {
   /* ============ আপডেট ============ */
   async function checkUpdate(silent) {
     try {
-      const r = await fetch(UPDATE_URL + '?' + Date.now(), { cache: 'no-store' });
+      const base = isNative() ? SITE_URL : '';
+      const r = await fetch(base + UPDATE_URL + '?' + Date.now(), { cache: 'no-store' });
       const j = await r.json();
-      if (j.version && j.version !== VERSION) setUpd(j);
+      if (!j.version) throw new Error('no version');
+      if (baseVer.current === null) { baseVer.current = j.version; setVer(j.version); if (!silent) toast(t('upToDate')); return; }
+      if (j.version !== baseVer.current) setUpd(j);
       else if (!silent) toast(t('upToDate'));
     } catch (e) { if (!silent) toast(t('upToDate')); }
   }
@@ -794,28 +844,28 @@ export default function App() {
       <>
         <div className="glow" style={{ width: 300, height: 300, background: '#f97316', top: -80, right: -80 }} />
         <div className="glow" style={{ width: 260, height: 260, background: '#fbbf24', bottom: -90, left: -70 }} />
-        <form className="auth" onSubmit={doAuth}>
+        <form className="auth" onSubmit={doAuth} autoComplete="off">
           <div className="card">
             <div style={{ textAlign: 'center', marginBottom: 10 }}><span className="logo" style={{ display: 'inline-grid' }}>🧮</span></div>
             <h2>{APP_NAME}</h2>
             <p>{L.bn.tagline}</p>
             {!CONFIGURED && <div className="warn">{t('setup')}</div>}
-            {(reg || aMode === 'verify') && <input readOnly={aMode === 'verify'} placeholder={t('yourName')} value={af.name} onChange={(e) => setAf({ ...af, name: e.target.value })} />}
-            <input type="email" autoComplete="email" autoCapitalize="none" autoCorrect="off" spellCheck={false} readOnly={aMode === 'reset' || aMode === 'verify'} placeholder={t('email')} value={af.email} onChange={(e) => setAf({ ...af, email: e.target.value.replace(/\s/g, '') })} />
-            {(aMode === 'reset' || aMode === 'verify') && <input inputMode="numeric" maxLength={6} autoComplete="one-time-code" placeholder={t('otpPh')} value={af.otp} onChange={(e) => setAf({ ...af, otp: e.target.value.replace(/\D/g, '') })} />}
+            {(reg || aMode === 'verify') && <input name="fld-nm-x" autoComplete="off" data-lpignore="true" data-1p-ignore="true" readOnly={aMode === 'verify'} placeholder={t('yourName')} value={af.name} onChange={onField('name', (v) => setAf((p) => ({ ...p, name: v })))} />}
+            <input type="text" inputMode="email" name="fld-em-x" autoComplete="off" data-lpignore="true" data-1p-ignore="true" data-form-type="other" autoCapitalize="none" autoCorrect="off" spellCheck={false} readOnly={aMode === 'reset' || aMode === 'verify'} placeholder={t('email')} value={af.email} onChange={onField('email', (v) => setAf((p) => ({ ...p, email: v.replace(/\s/g, '') })))} />
+            {(aMode === 'reset' || aMode === 'verify') && <input inputMode="numeric" maxLength={6} name="fld-otp-x" autoComplete="off" data-lpignore="true" placeholder={t('otpPh')} value={af.otp} onChange={(e) => setAf({ ...af, otp: e.target.value.replace(/\D/g, '') })} />}
             {aMode !== 'forgot' && aMode !== 'verify' && (
               <>
-                <input type={showPw ? 'text' : 'password'} autoComplete={reg || aMode === 'reset' || aMode === 'verify' ? 'new-password' : 'current-password'} autoCapitalize="none" autoCorrect="off" spellCheck={false} placeholder={aMode === 'reset' ? t('newPass') : t('password')} value={af.pass} onChange={(e) => setAf({ ...af, pass: e.target.value })} />
+                <input type={showPw || MASK_OK ? 'text' : 'password'} className={!showPw && MASK_OK ? 'pwmask' : ''} name="fld-pw-x" autoComplete="off" data-lpignore="true" data-1p-ignore="true" data-form-type="other" autoCapitalize="none" autoCorrect="off" spellCheck={false} placeholder={aMode === 'reset' ? t('newPass') : t('password')} value={af.pass} onChange={onField('pass', (v) => setAf((p) => ({ ...p, pass: v })))} />
                 <label className="showpw"><input type="checkbox" checked={showPw} onChange={(e) => setShowPw(e.target.checked)} />{t('showPw')}</label>
               </>
             )}
             <button className="btn full" type="submit" disabled={busy}>{busy ? '...' : aMode === 'verify' ? t('verifyBtn') : reg ? t('register') : aMode === 'forgot' ? t('sendOtp') : aMode === 'reset' ? t('resetBtn') : t('login')}</button>
-            {aMode === 'login' && <button type="button" className="link" onClick={() => setAMode('forgot')}>{t('forgot')}</button>}
+            {aMode === 'login' && <button type="button" className="link" onClick={() => switchMode('forgot')}>{t('forgot')}</button>}
             {aMode === 'reset' && <button type="button" className="link" onClick={doSendOtp}>{t('resend')}</button>}
             {aMode === 'verify' && <button type="button" className="link" onClick={doRegSend}>{t('resend')}</button>}
             {aMode === 'forgot' || aMode === 'reset' || aMode === 'verify'
-              ? <button type="button" className="link" onClick={() => setAMode('login')}>{t('backLogin')}</button>
-              : <button type="button" className="link" onClick={() => setAMode(reg ? 'login' : 'register')}>{reg ? t('haveAcc') : t('noAcc')}</button>}
+              ? <button type="button" className="link" onClick={() => switchMode('login')}>{t('backLogin')}</button>
+              : <button type="button" className="link" onClick={() => switchMode(reg ? 'login' : 'register')}>{reg ? t('haveAcc') : t('noAcc')}</button>}
           </div>
         </form>
       </>
@@ -1034,7 +1084,7 @@ export default function App() {
           ))}
           <div className="sset" style={{ cursor: 'pointer' }} onClick={() => setModal('bin')}><b>🗑 {t('bin')} ({binItems.length})</b><span>›</span></div>
           <div style={{ padding: '12px 0' }}><b>ℹ️ {t('appInfo')}</b>
-            <div className="muted" style={{ margin: '6px 0 10px' }}>{APP_NAME}<br />{t('version')}: v{VERSION}</div>
+            <div className="muted" style={{ margin: '6px 0 10px' }}>{APP_NAME}<br />{t('version')}: v{String(ver).replace(/^v/i, '')}</div>
             <button className="btn ghost" onClick={() => checkUpdate(false)}>🔄 {t('checkUpdate')}</button></div>
           <button className="btn red full" style={{ marginTop: 6 }} onClick={doLogout}>{t('logout')}</button>
           <button className="btn ghost full" style={{ marginTop: 8, color: 'var(--red)' }} onClick={() => { setDp(''); setModal('delAcc'); }}>🗑 {t('delAcc')}</button>
@@ -1116,7 +1166,7 @@ export default function App() {
   /* ---------------- মূল পেজ ---------------- */
   // ডেস্কটপে পুরো স্ক্রিন জুড়ে বড় করে দেখানো (মোবাইলে কিছু বদলায় না)
   const scale = vw >= 2400 ? 1.5 : vw >= 1900 ? 1.25 : vw >= 1500 ? 1.05 : vw >= 1000 ? 0.9 : 1;
-  const wrapStyle = vw >= 1000 ? { maxWidth: 'none', width: '100%', zoom: scale, padding: '18px 3vw 60px' } : undefined;
+  const wrapStyle = vw >= 1000 ? { maxWidth: 'none', width: '100%', zoom: scale, padding: '18px 3vw 60px' } : { paddingTop: 12 + topPad };
   return root(
     <>
     <div className="wrap" style={wrapStyle}>
