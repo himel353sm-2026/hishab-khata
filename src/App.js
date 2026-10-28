@@ -43,7 +43,7 @@ const APK_URL = '';
 const APP_NAME = 'Business Calculator Book';
 // OTP সার্ভার-ফাংশনের ঠিকানা। ওয়েবে ফাঁকা থাকবে। মোবাইল APK তে নিজের সাইটের পুরো লিংক দিন (যেমন 'https://hishab-khata.vercel.app')
 // পাসওয়ার্ড ঘর type=password না হলে ব্রাউজার তা অটোফিল/সেভ করে না; -webkit-text-security দিয়ে বিন্দু দেখানো হয়
-const MASK_OK = typeof CSS !== 'undefined' && !!CSS.supports && CSS.supports('-webkit-text-security', 'disc');
+const MASK_OK = typeof window !== 'undefined' && !!window.CSS && !!window.CSS.supports && window.CSS.supports('-webkit-text-security', 'disc');
 const API_BASE = '';
 
 const CONFIGURED = !String(firebaseConfig.apiKey).startsWith('YOUR');
