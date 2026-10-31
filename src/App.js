@@ -122,6 +122,20 @@ const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } ca
 const CAL_M = { bn: ['জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'], en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] };
 const CAL_D = { bn: ['রবি', 'সোম', 'মঙ্গল', 'বুধ', 'বৃহ', 'শুক্র', 'শনি'], en: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'] };
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const dayKey = (r) => {
+  let v = r && r.date;
+  if (v && typeof v === 'object' && typeof v.toDate === 'function') v = v.toDate();
+  if (v instanceof Date && !isNaN(v)) return `${v.getFullYear()}-${String(v.getMonth() + 1).padStart(2, '0')}-${String(v.getDate()).padStart(2, '0')}`;
+  if (typeof v === 'string') {
+    const a = v.replace(/[০-৯]/g, (c) => '০১২৩৪৫৬৭৮৯'.indexOf(c)).trim();
+    let m = a.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/);
+    if (m) return `${m[1]}-${m[2].padStart(2, '0')}-${m[3].padStart(2, '0')}`;
+    m = a.match(/^(\d{1,2})[-/.](\d{1,2})[-/.](\d{4})/);
+    if (m) return `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
+  }
+  if (r && r.ts) { const d = new Date(r.ts); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
+  return '';
+};
 const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
 const num = (v) => { const n = parseFloat(v); return isNaN(n) ? 0 : n; };
 const money = (n) => '৳' + (Math.round(n * 100) / 100).toLocaleString('en-US');
@@ -207,6 +221,8 @@ html,body,#root{width:100%!important;max-width:none!important;margin:0!important
 .acts{display:flex;gap:6px;align-items:center}
 .hdl{touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;padding:8px 6px;margin-left:-6px;color:var(--mut);font-size:20px;line-height:1;flex:0 0 auto}
 .item.dragging{opacity:.55;outline:2px dashed var(--ac)}
+.card.dragging{opacity:.6}
+.hdl{display:inline-block;vertical-align:middle}
 .item.dropover{box-shadow:0 -4px 0 var(--ac)}
 .card.dropgrp{outline:2px dashed var(--ac);outline-offset:-2px;background:rgba(245,158,11,.07)}
 .ghead{margin-bottom:10px}
@@ -754,6 +770,18 @@ export default function App() {
     });
     if (!same) toast(t('moved'));
   };
+  const commitGroupReorder = (dragId, overId) => {
+    const from = groups.findIndex((x) => x.id === dragId), to = groups.findIndex((x) => x.id === overId);
+    if (from < 0 || to < 0 || from === to) return;
+    const arr = [...groups]; const [mv] = arr.splice(from, 1); arr.splice(to, 0, mv);
+    run(() => { const b = writeBatch(db); arr.forEach((x, i) => b.update(rc(x.id), { ord: i })); return b.commit(); });
+  };
+  const gDragStart = (e, g) => {
+    e.preventDefault();
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch (er) { /* ignore */ }
+    dragPos.current = { x: e.clientX, y: e.clientY };
+    setDragSt({ grp: true, id: g.id, over: g.id });
+  };
   const dragStart = (e, p, gkey) => {
     e.preventDefault();
     try { e.currentTarget.setPointerCapture(e.pointerId); } catch (er) { /* ignore */ }
@@ -765,6 +793,11 @@ export default function App() {
     setDragSt((d) => {
       if (!d) return d;
       const el = document.elementFromPoint(dragPos.current.x, dragPos.current.y);
+      if (d.grp) {
+        const gc = el && el.closest ? el.closest('[data-gcard]') : null;
+        const k = gc ? gc.getAttribute('data-gkey') : '';
+        return k && k !== d.over ? { ...d, over: k } : d;
+      }
       const row = el && el.closest ? el.closest('[data-pid]') : null;
       const card = !row && el && el.closest ? el.closest('[data-gcard]') : null;
       let over = d.over, overG = d.overG;
@@ -786,6 +819,7 @@ export default function App() {
     // eslint-disable-next-line
   }, [dragging]);
   const dragEnd = () => {
+    if (dragSt && dragSt.grp) { if (dragSt.over !== dragSt.id) commitGroupReorder(dragSt.id, dragSt.over); setDragSt(null); return; }
     if (dragSt && dragSt.overG != null && !(dragSt.over === dragSt.id)) commitReorder(dragSt.gkey, dragSt.id, dragSt.overG, dragSt.over);
     setDragSt(null);
   };
@@ -1087,9 +1121,9 @@ export default function App() {
             if (!sec.g && its.length === 0 && (groups.length > 0 || q)) return null;
             if (q && its.length === 0) return null;
             return (
-              <div className={'card' + (dragSt && dragSt.overG === sec.key && dragSt.gkey !== sec.key ? ' dropgrp' : '')} key={sec.key || '_none'} data-gcard="1" data-gkey={sec.key}>
+              <div className={'card' + (dragSt && dragSt.overG === sec.key && dragSt.gkey !== sec.key ? ' dropgrp' : '') + (dragSt && dragSt.grp && dragSt.over === sec.key && dragSt.id !== sec.key ? ' dropgrp' : '') + (dragSt && dragSt.grp && dragSt.id === sec.key ? ' dragging' : '')} key={sec.key || '_none'} data-gcard="1" data-gkey={sec.key}>
                 <div className="row between ghead">
-                  <h3>{sec.name} <span className="muted">({its.length})</span></h3>
+                  <h3>{sec.g && <span className="hdl" title={t('dragHint')} onPointerDown={(e) => gDragStart(e, sec.g)} onPointerMove={dragMove} onPointerUp={dragEnd} onPointerCancel={() => setDragSt(null)}>⠿</span>}{sec.name} <span className="muted">({its.length})</span></h3>
                   <div className="acts">
                     <button className="ib" title={t('addItemHere')} onClick={() => { setPf({ ...pf, gid: sec.key }); setTab('stock'); window.scrollTo(0, 0); }}>＋</button>
                     {sec.g && <button className="ib" title={t('editGroup')} onClick={() => { setGm({ id: sec.g.id, name: sec.g.name }); setModal('editGroup'); }}>✎</button>}
@@ -1108,8 +1142,10 @@ export default function App() {
       const L2 = lang === 'en' ? 'en' : 'bn';
       const first = new Date(cal.y, cal.m, 1).getDay(), dim = new Date(cal.y, cal.m + 1, 0).getDate();
       const ds = (d) => `${cal.y}-${String(cal.m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-      const hasTx = {}; sales.forEach((x) => { hasTx[x.date] = true; });
-      const shownSales = txDate ? sales.filter((x) => x.date === txDate) : sales;
+      const hasTx = {}; [...sales, ...rets, ...exps].forEach((x) => { hasTx[dayKey(x)] = true; });
+      const shownSales = txDate ? sales.filter((x) => dayKey(x) === txDate) : sales;
+      const dayRets = txDate ? rets.filter((x) => dayKey(x) === txDate) : [];
+      const dayExps = txDate ? exps.filter((x) => dayKey(x) === txDate) : [];
       const goMonth = (d) => setCal((c) => { const n = new Date(c.y, c.m + d, 1); return { y: n.getFullYear(), m: n.getMonth() }; });
       return (
       <>
@@ -1140,15 +1176,36 @@ export default function App() {
             {txDate && <button className="btn ghost" style={{ padding: '6px 12px' }} onClick={() => setTxDate('')}>{t('showAll')}</button>}
           </div>
         </div>
-        <div className="card total"><span>{t('todaySale')}</span><b>{money(sum(sales.filter((s) => s.date === today()), (s) => s.sell * s.qty))}</b></div>
+        <div className="card total"><span>{t('todaySale')}</span><b>{money(sum(sales.filter((s) => dayKey(s) === today()), (s) => s.sell * s.qty))}</b></div>
         <div className="card">
-          {shownSales.length === 0 ? <div className="empty">{t('noData')}</div> : rev(shownSales).map((s) => (
-            <div className="item" key={s.id}>
-              <div><div className="nm">{s.name} × {s.qty}</div>
-                <div className="sub">{s.date} • {t('sell')} {money(s.sell)} • {t('profit')} <span className={s.sell >= s.buy ? 'pos' : 'neg'}>{money((s.sell - s.buy) * s.qty)}</span></div></div>
-              <div className="acts"><b>{money(s.sell * s.qty)}</b>{delBtn(s)}</div>
-            </div>
-          ))}
+          {shownSales.length + dayRets.length + dayExps.length === 0 ? <div className="empty">{txDate ? `${txDate} — ` : ''}{t('noData')}</div> : null}
+          {(() => {
+            const all = [...shownSales.map((x) => ({ ...x, _k: 's' })), ...(txDate ? dayRets : rets).map((x) => ({ ...x, _k: 'r' })), ...(txDate ? dayExps : exps).map((x) => ({ ...x, _k: 'e' }))];
+            const days = {};
+            all.forEach((x) => { const k = dayKey(x) || '—'; (days[k] = days[k] || []).push(x); });
+            return Object.keys(days).sort().reverse().map((k) => {
+              const list = days[k].sort((a, b) => (b.ts || 0) - (a.ts || 0));
+              const tot = sum(list.filter((x) => x._k === 's'), (x) => x.sell * x.qty);
+              return (
+                <div key={k}>
+                  <div className="row between" style={{ padding: '10px 2px 4px', borderBottom: '1px solid var(--bd, #2a2a2a)', marginTop: 6 }}>
+                    <b>📅 {k}</b><span className="muted">{t('dayTotal')}: {money(tot)}</span>
+                  </div>
+                  {list.map((s) => s._k === 's' ? (
+                    <div className="item" key={s.id}>
+                      <div><div className="nm">{s.name} × {s.qty}</div>
+                        <div className="sub">{t('sell')} {money(s.sell)} • {t('profit')} <span className={s.sell >= s.buy ? 'pos' : 'neg'}>{money((s.sell - s.buy) * s.qty)}</span></div></div>
+                      <div className="acts"><b>{money(s.sell * s.qty)}</b>{delBtn(s)}</div>
+                    </div>
+                  ) : s._k === 'r' ? (
+                    <div className="item" key={s.id}><div><div className="nm">↩ {s.name} × {s.qty}</div><div className="sub">{t('ret')}</div></div><div className="acts"><b className="neg">-{money(s.sell * s.qty)}</b>{delBtn(s)}</div></div>
+                  ) : (
+                    <div className="item" key={s.id}><div><div className="nm">{s.name}</div><div className="sub">{t('exp')}</div></div><div className="acts"><b className="neg">-{money(s.amount)}</b>{delBtn(s)}</div></div>
+                  ))}
+                </div>
+              );
+            });
+          })()}
         </div>
       </>
       );
@@ -1199,7 +1256,7 @@ export default function App() {
       <>
         <div className="card"><div className="row between"><h3 style={{ margin: 0 }}>{t('month')}</h3>
           <input type="month" value={month} style={{ maxWidth: 200 }} onChange={(e) => setMonth(e.target.value || month)} /></div></div>
-        <div className="card"><Stats t={t} r={report((x) => (x.date || '').startsWith(month))} /></div>
+        <div className="card"><Stats t={t} r={report((x) => dayKey(x).startsWith(month))} /></div>
       </>
     ),
     total: () => (
