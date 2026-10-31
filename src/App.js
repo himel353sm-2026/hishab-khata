@@ -75,7 +75,7 @@ const L = {
     noteHere: 'নোট লিখুন...', settings: 'সেটিংস', account: 'অ্যাকাউন্ট', language: 'ভাষা', theme: 'থিম মুড',
     dark: 'ডার্ক', light: 'হোয়াইট', bin: 'রিসাইকেল বিন', binEmpty: 'রিসাইকেল বিন খালি', restore: 'রিস্টোর',
     emptyBin: 'সব চিরতরে মুছুন', appInfo: 'অ্যাপ ইনফরমেশন ও আপডেট', version: 'বর্তমান ভার্সন', checkUpdate: 'চেক আপডেট',
-    upToDate: 'আপনার অ্যাপ লেটেস্ট ভার্সনে আছে', updTitle: 'নতুন আপডেট এসেছে', updMsg: 'অ্যাপের নতুন ভার্সন পাওয়া যাচ্ছে। আপডেট করে নিন।', updNow: 'আপডেট করুন', updLater: 'পরে', ungrouped: 'সাধারণ ঘর', addGroup: 'নতুন ঘর যোগ করুন', groupName: 'ঘরের নাম (যেমন: প্যান্ট, শার্ট)', groupLbl: 'ঘর', addItemHere: 'এই ঘরে আইটেম যোগ করুন', noGroupItems: 'এই ঘরে এখনো কোনো আইটেম নেই', editGroup: 'ঘরের নাম বদলান', editNote: 'নোট এডিট করুন', dragHint: 'ধরে টেনে উপর-নিচ করুন', allDates: 'সব তারিখ', pickDate: 'তারিখে চাপ দিয়ে ওই দিনের লেনদেন দেখুন', dayTotal: 'এই দিনের বিক্রি', showAll: 'সব দেখান', edited: 'এডিট করা', groupAdded: 'নতুন ঘর যোগ হয়েছে', newUpdate: '🔔 নতুন আপডেট এসেছে! আপডেট করতে এখানে ট্যাপ করুন',
+    upToDate: 'আপনার অ্যাপ লেটেস্ট ভার্সনে আছে', updTitle: 'নতুন আপডেট এসেছে', updMsg: 'অ্যাপের নতুন ভার্সন পাওয়া যাচ্ছে। আপডেট করে নিন।', updNow: 'আপডেট করুন', updLater: 'পরে', ungrouped: 'সাধারণ ঘর', addGroup: 'নতুন ঘর যোগ করুন', groupName: 'ঘরের নাম (যেমন: প্যান্ট, শার্ট)', groupLbl: 'ঘর', addItemHere: 'এই ঘরে আইটেম যোগ করুন', noGroupItems: 'এই ঘরে এখনো কোনো আইটেম নেই', editGroup: 'ঘরের নাম বদলান', editNote: 'নোট এডিট করুন', dragHint: 'ধরে টেনে উপর-নিচ করুন বা অন্য ঘরে ফেলুন', allDates: 'সব তারিখ', pickDate: 'তারিখে চাপ দিয়ে ওই দিনের লেনদেন দেখুন', dayTotal: 'এই দিনের বিক্রি', showAll: 'সব দেখান', edited: 'এডিট করা', groupAdded: 'নতুন ঘর যোগ হয়েছে', moved: 'আইটেম ঘরে সরানো হয়েছে', newUpdate: '🔔 নতুন আপডেট এসেছে! আপডেট করতে এখানে ট্যাপ করুন',
     logout: 'লগ আউট করুন', business: 'বিজনেস', addBiz: 'নতুন বিজনেসের নাম', manageBiz: 'বিজনেস ম্যানেজ', rename: 'নাম বদলান',
     login: 'লগইন', register: 'রেজিস্টার', email: 'ইমেইল', password: 'পাসওয়ার্ড', yourName: 'আপনার নাম',
     haveAcc: 'অ্যাকাউন্ট আছে? লগইন করুন', noAcc: 'অ্যাকাউন্ট নেই? রেজিস্টার করুন', fill: 'সব ঘর পূরণ করুন',
@@ -102,7 +102,7 @@ const L = {
     noteHere: 'Write a note...', settings: 'Settings', account: 'Account', language: 'Language', theme: 'Theme',
     dark: 'Dark', light: 'White', bin: 'Recycle Bin', binEmpty: 'Recycle Bin is empty', restore: 'Restore',
     emptyBin: 'Delete all forever', appInfo: 'App Info & Update', version: 'Current version', checkUpdate: 'Check for update',
-    upToDate: 'You are on the latest version', updTitle: 'New update available', updMsg: 'A new version of the app is available. Please update.', updNow: 'Update now', updLater: 'Later', ungrouped: 'General', addGroup: 'Add new group', groupName: 'Group name (e.g. Pants, Shirts)', groupLbl: 'Group', addItemHere: 'Add item to this group', noGroupItems: 'No items in this group yet', editGroup: 'Rename group', editNote: 'Edit note', dragHint: 'Hold and drag to reorder', allDates: 'All dates', pickDate: 'Tap a date to see that day\'s transactions', dayTotal: 'Sales this day', showAll: 'Show all', edited: 'edited', groupAdded: 'New group added', newUpdate: '🔔 New update available! Tap here to update',
+    upToDate: 'You are on the latest version', updTitle: 'New update available', updMsg: 'A new version of the app is available. Please update.', updNow: 'Update now', updLater: 'Later', ungrouped: 'General', addGroup: 'Add new group', groupName: 'Group name (e.g. Pants, Shirts)', groupLbl: 'Group', addItemHere: 'Add item to this group', noGroupItems: 'No items in this group yet', editGroup: 'Rename group', editNote: 'Edit note', dragHint: 'Hold and drag to reorder or drop into another group', allDates: 'All dates', pickDate: 'Tap a date to see that day\'s transactions', dayTotal: 'Sales this day', showAll: 'Show all', edited: 'edited', groupAdded: 'New group added', moved: 'Item moved to group', newUpdate: '🔔 New update available! Tap here to update',
     logout: 'Log out', business: 'Business', addBiz: 'New business name', manageBiz: 'Manage businesses', rename: 'Rename',
     login: 'Login', register: 'Register', email: 'Email', password: 'Password', yourName: 'Your name',
     haveAcc: 'Have an account? Login', noAcc: 'No account? Register', fill: 'Fill all fields',
@@ -208,6 +208,7 @@ html,body,#root{width:100%!important;max-width:none!important;margin:0!important
 .hdl{touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;padding:8px 6px;margin-left:-6px;color:var(--mut);font-size:20px;line-height:1;flex:0 0 auto}
 .item.dragging{opacity:.55;outline:2px dashed var(--ac)}
 .item.dropover{box-shadow:0 -4px 0 var(--ac)}
+.card.dropgrp{outline:2px dashed var(--ac);outline-offset:-2px;background:rgba(245,158,11,.07)}
 .ghead{margin-bottom:10px}
 .ghead h3{margin:0}
 .grpadd{display:flex;gap:8px;align-items:center}
@@ -729,30 +730,63 @@ export default function App() {
     setModal(null); toast(t('saved'));
   };
   // টেনে আইটেম উপর-নিচ করা: dragId কে overId এর জায়গায় বসিয়ে ক্রম (ord) সেভ
-  const commitReorder = (gkey, dragId, overId) => {
-    const list = itemsOf(gkey, true);
-    const from = list.findIndex((x) => x.id === dragId), to = list.findIndex((x) => x.id === overId);
-    if (from < 0 || to < 0 || from === to) return;
-    const arr = [...list]; const [mv] = arr.splice(from, 1); arr.splice(to, 0, mv);
-    run(() => { const b = writeBatch(db); arr.forEach((x, i) => { if (x.ord !== i) b.update(rc(x.id), { ord: i }); }); return b.commit(); });
+  const commitReorder = (fromKey, dragId, toKey, overId) => {
+    const same = fromKey === toKey;
+    const list = itemsOf(toKey, true);
+    let arr;
+    if (same) {
+      const from = list.findIndex((x) => x.id === dragId), to = overId ? list.findIndex((x) => x.id === overId) : list.length - 1;
+      if (from < 0 || to < 0 || from === to) return;
+      arr = [...list]; const [mv] = arr.splice(from, 1); arr.splice(to, 0, mv);
+    } else {
+      const mvItem = products.find((x) => x.id === dragId); if (!mvItem) return;
+      arr = list.filter((x) => x.id !== dragId);
+      const at = overId ? arr.findIndex((x) => x.id === overId) : -1;
+      arr.splice(at < 0 ? arr.length : at, 0, mvItem);
+    }
+    run(() => {
+      const b = writeBatch(db);
+      arr.forEach((x, i) => {
+        if (x.id === dragId) b.update(rc(x.id), { ord: i, gid: toKey || null });
+        else if (x.ord !== i) b.update(rc(x.id), { ord: i });
+      });
+      return b.commit();
+    });
+    if (!same) toast(t('moved'));
   };
   const dragStart = (e, p, gkey) => {
     e.preventDefault();
     try { e.currentTarget.setPointerCapture(e.pointerId); } catch (er) { /* ignore */ }
-    setDragSt({ id: p.id, over: p.id, gkey });
+    dragPos.current = { x: e.clientX, y: e.clientY };
+    setDragSt({ id: p.id, over: p.id, overG: gkey, gkey });
   };
-  const dragMove = (e) => {
-    if (!dragSt) return;
-    if (e.clientY < 90) window.scrollBy(0, -14); else if (e.clientY > window.innerHeight - 90) window.scrollBy(0, 14);
-    const el = document.elementFromPoint(e.clientX, e.clientY);
-    const row = el && el.closest ? el.closest('[data-pid]') : null;
-    if (row && row.getAttribute('data-gkey') === dragSt.gkey) {
-      const over = row.getAttribute('data-pid');
-      if (over !== dragSt.over) setDragSt({ ...dragSt, over });
-    }
+  const dragPos = useRef({ x: 0, y: 0 });
+  const dragHit = () => {
+    setDragSt((d) => {
+      if (!d) return d;
+      const el = document.elementFromPoint(dragPos.current.x, dragPos.current.y);
+      const row = el && el.closest ? el.closest('[data-pid]') : null;
+      const card = !row && el && el.closest ? el.closest('[data-gcard]') : null;
+      let over = d.over, overG = d.overG;
+      if (row) { over = row.getAttribute('data-pid'); overG = row.getAttribute('data-gkey'); }
+      else if (card) { over = null; overG = card.getAttribute('data-gkey'); }
+      return over !== d.over || overG !== d.overG ? { ...d, over, overG } : d;
+    });
   };
+  const dragMove = (e) => { dragPos.current = { x: e.clientX, y: e.clientY }; if (dragSt) dragHit(); };
+  // টানার সময় স্ক্রিনের উপর/নিচের কিনারায় আঙুল গেলে নিজে নিজে স্ক্রল
+  const dragging = !!dragSt;
+  useEffect(() => {
+    if (!dragging) return undefined;
+    const id = setInterval(() => {
+      const y = dragPos.current.y;
+      if (y < 110) { window.scrollBy(0, -12); dragHit(); } else if (y > window.innerHeight - 110) { window.scrollBy(0, 12); dragHit(); }
+    }, 16);
+    return () => clearInterval(id);
+    // eslint-disable-next-line
+  }, [dragging]);
   const dragEnd = () => {
-    if (dragSt && dragSt.over && dragSt.over !== dragSt.id) commitReorder(dragSt.gkey, dragSt.id, dragSt.over);
+    if (dragSt && dragSt.overG != null && !(dragSt.over === dragSt.id)) commitReorder(dragSt.gkey, dragSt.id, dragSt.overG, dragSt.over);
     setDragSt(null);
   };
 
@@ -1024,7 +1058,7 @@ export default function App() {
     list: () => {
       const sections = [{ key: '', name: t('ungrouped'), g: null }, ...groups.map((g) => ({ key: g.id, name: g.name, g }))];
       const itemRow = (p, gkey) => (
-        <div className={'item' + (dragSt && dragSt.id === p.id ? ' dragging' : '') + (dragSt && dragSt.over === p.id && dragSt.id !== p.id && dragSt.gkey === gkey ? ' dropover' : '')} key={p.id} data-pid={p.id} data-gkey={gkey}>
+        <div className={'item' + (dragSt && dragSt.id === p.id ? ' dragging' : '') + (dragSt && dragSt.over === p.id && dragSt.id !== p.id ? ' dropover' : '')} key={p.id} data-pid={p.id} data-gkey={gkey}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
             <span className="hdl" title={t('dragHint')} onPointerDown={(e) => dragStart(e, p, gkey)} onPointerMove={dragMove} onPointerUp={dragEnd} onPointerCancel={() => setDragSt(null)}>⠿</span>
             <div><div className="nm">{p.name}</div><div className="sub">{t('buy')} {money(p.buy)} • {t('sell')} {money(p.sell)} • {t('value')} {money(p.buy * p.stock)}</div></div>
@@ -1053,7 +1087,7 @@ export default function App() {
             if (!sec.g && its.length === 0 && (groups.length > 0 || q)) return null;
             if (q && its.length === 0) return null;
             return (
-              <div className="card" key={sec.key || '_none'}>
+              <div className={'card' + (dragSt && dragSt.overG === sec.key && dragSt.gkey !== sec.key ? ' dropgrp' : '')} key={sec.key || '_none'} data-gcard="1" data-gkey={sec.key}>
                 <div className="row between ghead">
                   <h3>{sec.name} <span className="muted">({its.length})</span></h3>
                   <div className="acts">
