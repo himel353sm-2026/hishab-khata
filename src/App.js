@@ -75,12 +75,12 @@ const L = {
     noteHere: 'নোট লিখুন...', settings: 'সেটিংস', account: 'অ্যাকাউন্ট', language: 'ভাষা', theme: 'থিম মুড',
     dark: 'ডার্ক', light: 'হোয়াইট', bin: 'রিসাইকেল বিন', binEmpty: 'রিসাইকেল বিন খালি', restore: 'রিস্টোর',
     emptyBin: 'সব চিরতরে মুছুন', appInfo: 'অ্যাপ ইনফরমেশন ও আপডেট', version: 'বর্তমান ভার্সন', checkUpdate: 'চেক আপডেট',
-    upToDate: 'আপনার অ্যাপ লেটেস্ট ভার্সনে আছে', updTitle: 'নতুন আপডেট এসেছে', updMsg: 'অ্যাপের নতুন ভার্সন পাওয়া যাচ্ছে। আপডেট করে নিন।', updNow: 'আপডেট করুন', updLater: 'পরে', newUpdate: '🔔 নতুন আপডেট এসেছে! আপডেট করতে এখানে ট্যাপ করুন',
+    upToDate: 'আপনার অ্যাপ লেটেস্ট ভার্সনে আছে', updTitle: 'নতুন আপডেট এসেছে', updMsg: 'অ্যাপের নতুন ভার্সন পাওয়া যাচ্ছে। আপডেট করে নিন।', updNow: 'আপডেট করুন', updLater: 'পরে', ungrouped: 'সাধারণ ঘর', addGroup: 'নতুন ঘর যোগ করুন', groupName: 'ঘরের নাম (যেমন: প্যান্ট, শার্ট)', groupLbl: 'ঘর', addItemHere: 'এই ঘরে আইটেম যোগ করুন', noGroupItems: 'এই ঘরে এখনো কোনো আইটেম নেই', editGroup: 'ঘরের নাম বদলান', editNote: 'নোট এডিট করুন', dragHint: 'ধরে টেনে উপর-নিচ করুন', allDates: 'সব তারিখ', pickDate: 'তারিখে চাপ দিয়ে ওই দিনের লেনদেন দেখুন', dayTotal: 'এই দিনের বিক্রি', showAll: 'সব দেখান', edited: 'এডিট করা', groupAdded: 'নতুন ঘর যোগ হয়েছে', newUpdate: '🔔 নতুন আপডেট এসেছে! আপডেট করতে এখানে ট্যাপ করুন',
     logout: 'লগ আউট করুন', business: 'বিজনেস', addBiz: 'নতুন বিজনেসের নাম', manageBiz: 'বিজনেস ম্যানেজ', rename: 'নাম বদলান',
     login: 'লগইন', register: 'রেজিস্টার', email: 'ইমেইল', password: 'পাসওয়ার্ড', yourName: 'আপনার নাম',
     haveAcc: 'অ্যাকাউন্ট আছে? লগইন করুন', noAcc: 'অ্যাকাউন্ট নেই? রেজিস্টার করুন', fill: 'সব ঘর পূরণ করুন',
     forgot: 'পাসওয়ার্ড ভুলে গেছেন?', resetSent: 'রিসেটের লিংক ইমেইলে পাঠানো হয়েছে — Inbox আর Spam দুটোই দেখুন', needEmail: 'আগে ইমেইল লিখুন',
-    types: { product: 'পণ্য', sale: 'লেনদেন', ret: 'রিটার্ন', exp: 'খরচ', note: 'নোট', biz: 'বিজনেস' },
+    types: { group: 'ঘর', product: 'পণ্য', sale: 'লেনদেন', ret: 'রিটার্ন', exp: 'খরচ', note: 'নোট', biz: 'বিজনেস' },
     tagline: 'আপনার ডিজিটাল হিসাব খাতা', loading: 'লোড হচ্ছে...', online: 'অনলাইন — সব ডিভাইসে সিঙ্ক চালু',
     offline: 'অফলাইন — নেট এলে অটো সিঙ্ক হবে', setup: '⚠️ Firebase কনফিগ বসানো হয়নি। App.js এর উপরে firebaseConfig দিন।',
     delForever: 'চিরতরে মুছবেন?', date: 'তারিখ', showPw: 'পাসওয়ার্ড দেখান', delAcc: 'অ্যাকাউন্ট ডিলিট করুন', delAccWarn: 'আপনার অ্যাকাউন্ট আর সব ডেটা (বিজনেস, স্টক, লেনদেন, রিসাইকেল বিনসহ) চিরতরে মুছে যাবে। এটা আর ফেরানো যাবে না। পরে চাইলে এই ইমেইল দিয়ে নতুন করে অ্যাকাউন্ট খুলতে পারবেন।', delAccPass: 'নিশ্চিত করতে আপনার পাসওয়ার্ড দিন', delAccBtn: 'হ্যাঁ, চিরতরে মুছুন', accDeleted: 'অ্যাকাউন্ট মুছে গেছে। চাইলে একই ইমেইলে নতুন অ্যাকাউন্ট খুলুন', verifyBtn: 'যাচাই করে অ্যাকাউন্ট খুলুন', otpSent: 'OTP আপনার ইমেইলে পাঠানো হয়েছে (Spam-ও দেখুন)', otpPh: 'ইমেইলে আসা ৬ সংখ্যার OTP', newPass: 'নতুন পাসওয়ার্ড', sendOtp: 'OTP পাঠান', resetBtn: 'পাসওয়ার্ড বদলান', resend: 'আবার OTP পাঠান', backLogin: '← লগইনে ফিরুন', passChanged: 'পাসওয়ার্ড বদলানো হয়েছে', e_nouser: 'এই ইমেইলে কোনো অ্যাকাউন্ট নেই', e_wait: '১ মিনিট পরে আবার চেষ্টা করুন', e_exp: 'OTP মেয়াদ শেষ, আবার OTP নিন', e_otp: 'OTP ভুল', e_many: 'অনেকবার ভুল হয়েছে, আবার OTP নিন',
@@ -102,12 +102,12 @@ const L = {
     noteHere: 'Write a note...', settings: 'Settings', account: 'Account', language: 'Language', theme: 'Theme',
     dark: 'Dark', light: 'White', bin: 'Recycle Bin', binEmpty: 'Recycle Bin is empty', restore: 'Restore',
     emptyBin: 'Delete all forever', appInfo: 'App Info & Update', version: 'Current version', checkUpdate: 'Check for update',
-    upToDate: 'You are on the latest version', updTitle: 'New update available', updMsg: 'A new version of the app is available. Please update.', updNow: 'Update now', updLater: 'Later', newUpdate: '🔔 New update available! Tap here to update',
+    upToDate: 'You are on the latest version', updTitle: 'New update available', updMsg: 'A new version of the app is available. Please update.', updNow: 'Update now', updLater: 'Later', ungrouped: 'General', addGroup: 'Add new group', groupName: 'Group name (e.g. Pants, Shirts)', groupLbl: 'Group', addItemHere: 'Add item to this group', noGroupItems: 'No items in this group yet', editGroup: 'Rename group', editNote: 'Edit note', dragHint: 'Hold and drag to reorder', allDates: 'All dates', pickDate: 'Tap a date to see that day\'s transactions', dayTotal: 'Sales this day', showAll: 'Show all', edited: 'edited', groupAdded: 'New group added', newUpdate: '🔔 New update available! Tap here to update',
     logout: 'Log out', business: 'Business', addBiz: 'New business name', manageBiz: 'Manage businesses', rename: 'Rename',
     login: 'Login', register: 'Register', email: 'Email', password: 'Password', yourName: 'Your name',
     haveAcc: 'Have an account? Login', noAcc: 'No account? Register', fill: 'Fill all fields',
     forgot: 'Forgot password?', resetSent: 'Reset link sent — check both Inbox and Spam', needEmail: 'Enter your email first',
-    types: { product: 'Product', sale: 'Transaction', ret: 'Return', exp: 'Expense', note: 'Note', biz: 'Business' },
+    types: { group: 'Group', product: 'Product', sale: 'Transaction', ret: 'Return', exp: 'Expense', note: 'Note', biz: 'Business' },
     tagline: 'Your digital account book', loading: 'Loading...', online: 'Online — synced on all devices',
     offline: 'Offline — will sync when online', setup: '⚠️ Firebase config missing. Fill firebaseConfig at the top of App.js.',
     delForever: 'Delete forever?', date: 'Date', showPw: 'Show password', delAcc: 'Delete account', delAccWarn: 'Your account and ALL data (businesses, stock, transactions, recycle bin) will be permanently deleted. This cannot be undone. You can create a new account with this email later.', delAccPass: 'Enter your password to confirm', delAccBtn: 'Yes, delete forever', accDeleted: 'Account deleted. You can register again with the same email', verifyBtn: 'Verify & create account', otpSent: 'OTP sent to your email (check Spam too)', otpPh: '6-digit OTP from email', newPass: 'New password', sendOtp: 'Send OTP', resetBtn: 'Change password', resend: 'Resend OTP', backLogin: '← Back to login', passChanged: 'Password changed', e_nouser: 'No account with this email', e_wait: 'Try again after 1 minute', e_exp: 'OTP expired, request a new one', e_otp: 'Wrong OTP', e_many: 'Too many wrong tries, request a new OTP',
@@ -119,6 +119,8 @@ const L = {
 /* ============================ ছোট হেল্পার ============================ */
 const ls = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } };
 const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* ignore */ } };
+const CAL_M = { bn: ['জানুয়ারি', 'ফেব্রুয়ারি', 'মার্চ', 'এপ্রিল', 'মে', 'জুন', 'জুলাই', 'আগস্ট', 'সেপ্টেম্বর', 'অক্টোবর', 'নভেম্বর', 'ডিসেম্বর'], en: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] };
+const CAL_D = { bn: ['রবি', 'সোম', 'মঙ্গল', 'বুধ', 'বৃহ', 'শুক্র', 'শনি'], en: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'] };
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
 const num = (v) => { const n = parseFloat(v); return isNaN(n) ? 0 : n; };
@@ -203,6 +205,22 @@ html,body,#root{width:100%!important;max-width:none!important;margin:0!important
 .item{display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--card2);border:1px solid var(--bd);border-radius:14px;padding:12px 14px;margin-bottom:10px;flex-wrap:wrap}
 .item .nm{font-weight:700}.item .sub{color:var(--mut);font-size:13px;margin-top:3px}
 .acts{display:flex;gap:6px;align-items:center}
+.hdl{touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;padding:8px 6px;margin-left:-6px;color:var(--mut);font-size:20px;line-height:1;flex:0 0 auto}
+.item.dragging{opacity:.55;outline:2px dashed var(--ac)}
+.item.dropover{box-shadow:0 -4px 0 var(--ac)}
+.ghead{margin-bottom:10px}
+.ghead h3{margin:0}
+.grpadd{display:flex;gap:8px;align-items:center}
+.grpadd input{flex:1}
+.calhd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.calhd b{font-size:16px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.cal .wd{text-align:center;color:var(--mut);font-size:12px;padding:4px 0}
+.cal button{position:relative;height:40px;border-radius:10px;background:var(--card2);border:1px solid var(--bd);font-size:14px;font-weight:600;color:var(--tx)}
+.cal button.td{border-color:var(--ac)}
+.cal button.on{background:var(--ac);color:var(--acx);border-color:var(--ac)}
+.cal button .dt{position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:var(--ac)}
+.cal button.on .dt{background:var(--acx)}
 .ib{width:36px;height:36px;border-radius:10px;background:var(--card);border:1px solid var(--bd);font-size:16px;font-weight:800}
 .ib.m{color:var(--red)}.ib.p{color:var(--grn)}
 .qty{min-width:34px;text-align:center;font-weight:800}
@@ -425,12 +443,18 @@ export default function App() {
     return () => ids.forEach(clearTimeout);
   }, [aMode]);
 
-  const [pf, setPf] = useState({ name: '', buy: '', sell: '', stock: '' });
+  const [pf, setPf] = useState({ name: '', buy: '', sell: '', stock: '', gid: '' });
   const [sf, setSf] = useState({ pid: '', qty: '1', price: '' });
   const [rf, setRf] = useState({ pid: '', qty: '1', price: '' });
   const [ef, setEf] = useState({ name: '', amount: '', date: today() });
   const [nt, setNt] = useState('');
-  const [mf, setMf] = useState({ id: '', name: '', buy: '', sell: '', stock: '' });
+  const [mf, setMf] = useState({ id: '', name: '', buy: '', sell: '', stock: '', gid: '' });
+  const [gf, setGf] = useState('');                       // নতুন ঘরের নাম
+  const [gm, setGm] = useState({ id: '', name: '' });     // ঘরের নাম এডিট
+  const [ne, setNe] = useState({ id: '', text: '' });     // নোট এডিট
+  const [txDate, setTxDate] = useState('');               // ক্যালেন্ডারে বাছা তারিখ ('' = সব)
+  const [cal, setCal] = useState(() => { const d = new Date(); return { y: d.getFullYear(), m: d.getMonth() }; });
+  const [dragSt, setDragSt] = useState(null);             // টেনে সাজানো: { id, over, gkey }
   const [bn, setBn] = useState('');
 
   const toast = (m) => { setToastMsg(m); clearTimeout(toast._t); toast._t = setTimeout(() => setToastMsg(''), 2200); };
@@ -511,6 +535,11 @@ export default function App() {
   const binItems = recs.filter((r) => r.del).sort((a, b) => (b.delAt || 0) - (a.delAt || 0));
   const stockValue = sum(products, (p) => p.buy * p.stock);
   const shownProducts = products.filter((p) => p.name.toLowerCase().includes(q.toLowerCase()));
+  const ordOf = (r) => (r.ord != null ? r.ord : (r.ts || 0));
+  const groups = byKind('group').sort((a, b) => ordOf(a) - ordOf(b));
+  const gidSet = new Set(groups.map((g) => g.id));
+  const inGroup = (p, gkey) => (gkey ? p.gid === gkey : (!p.gid || !gidSet.has(p.gid)));
+  const itemsOf = (gkey, all) => (all ? products : shownProducts).filter((p) => inGroup(p, gkey)).sort((a, b) => ordOf(a) - ordOf(b));
 
   const report = (f) => {
     const sl = sales.filter(f), rt = rets.filter(f), ex = exps.filter(f);
@@ -658,10 +687,10 @@ export default function App() {
     const name = pf.name.trim(); if (!name) return toast(t('nameReq'));
     run(async () => {
       const b = writeBatch(db);
-      b.set(rc(uid()), { kind: 'product', biz: cur, name, buy: num(pf.buy), sell: num(pf.sell), stock: Math.floor(num(pf.stock)), del: false, ts: Date.now() });
+      b.set(rc(uid()), { kind: 'product', biz: cur, name, buy: num(pf.buy), sell: num(pf.sell), stock: Math.floor(num(pf.stock)), gid: pf.gid || null, del: false, ts: Date.now() });
       await b.commit();
     });
-    setPf({ name: '', buy: '', sell: '', stock: '' }); toast(t('added'));
+    setPf({ name: '', buy: '', sell: '', stock: '', gid: pf.gid || '' }); toast(t('added'));
   };
   const plus = (p) => run(() => { const b = writeBatch(db); b.update(rc(p.id), { stock: increment(1) }); return b.commit(); });
   const minus = (p) => {
@@ -676,11 +705,55 @@ export default function App() {
       return b.commit();
     });
   };
-  const openEdit = (p) => { setMf({ id: p.id, name: p.name, buy: p.buy, sell: p.sell, stock: p.stock }); setModal('editProd'); };
+  const openEdit = (p) => { setMf({ id: p.id, name: p.name, buy: p.buy, sell: p.sell, stock: p.stock, gid: p.gid && gidSet.has(p.gid) ? p.gid : '' }); setModal('editProd'); };
   const saveEdit = () => {
     const name = mf.name.trim(); if (!name) return toast(t('nameReq'));
-    run(() => { const b = writeBatch(db); b.update(rc(mf.id), { name, buy: num(mf.buy), sell: num(mf.sell), stock: Math.floor(num(mf.stock)) }); return b.commit(); });
+    run(() => { const b = writeBatch(db); b.update(rc(mf.id), { name, buy: num(mf.buy), sell: num(mf.sell), stock: Math.floor(num(mf.stock)), gid: mf.gid || null, ...(mf.gid !== (products.find((x) => x.id === mf.id) || {}).gid ? { ord: Date.now() } : {}) }); return b.commit(); });
     setModal(null); toast(t('saved'));
+  };
+
+  /* ============ ঘর (গ্রুপ) ============ */
+  const addGroup = () => {
+    const name = gf.trim(); if (!name) return toast(t('nameReq'));
+    run(() => { const b = writeBatch(db); b.set(rc(uid()), { kind: 'group', biz: cur, name, ord: Date.now(), del: false, ts: Date.now() }); return b.commit(); });
+    setGf(''); toast(t('groupAdded'));
+  };
+  const saveGroup = () => {
+    const name = gm.name.trim(); if (!name) return toast(t('nameReq'));
+    run(() => { const b = writeBatch(db); b.update(rc(gm.id), { name }); return b.commit(); });
+    setModal(null); toast(t('saved'));
+  };
+  const saveNoteEdit = () => {
+    const text = ne.text.trim(); if (!text) return toast(t('nameReq'));
+    run(() => { const b = writeBatch(db); b.update(rc(ne.id), { text, edited: Date.now() }); return b.commit(); });
+    setModal(null); toast(t('saved'));
+  };
+  // টেনে আইটেম উপর-নিচ করা: dragId কে overId এর জায়গায় বসিয়ে ক্রম (ord) সেভ
+  const commitReorder = (gkey, dragId, overId) => {
+    const list = itemsOf(gkey, true);
+    const from = list.findIndex((x) => x.id === dragId), to = list.findIndex((x) => x.id === overId);
+    if (from < 0 || to < 0 || from === to) return;
+    const arr = [...list]; const [mv] = arr.splice(from, 1); arr.splice(to, 0, mv);
+    run(() => { const b = writeBatch(db); arr.forEach((x, i) => { if (x.ord !== i) b.update(rc(x.id), { ord: i }); }); return b.commit(); });
+  };
+  const dragStart = (e, p, gkey) => {
+    e.preventDefault();
+    try { e.currentTarget.setPointerCapture(e.pointerId); } catch (er) { /* ignore */ }
+    setDragSt({ id: p.id, over: p.id, gkey });
+  };
+  const dragMove = (e) => {
+    if (!dragSt) return;
+    if (e.clientY < 90) window.scrollBy(0, -14); else if (e.clientY > window.innerHeight - 90) window.scrollBy(0, 14);
+    const el = document.elementFromPoint(e.clientX, e.clientY);
+    const row = el && el.closest ? el.closest('[data-pid]') : null;
+    if (row && row.getAttribute('data-gkey') === dragSt.gkey) {
+      const over = row.getAttribute('data-pid');
+      if (over !== dragSt.over) setDragSt({ ...dragSt, over });
+    }
+  };
+  const dragEnd = () => {
+    if (dragSt && dragSt.over && dragSt.over !== dragSt.id) commitReorder(dragSt.gkey, dragSt.id, dragSt.over);
+    setDragSt(null);
   };
 
   /* ============ লেনদেন / রিটার্ন / খরচ / নোট ============ */
@@ -926,6 +999,13 @@ export default function App() {
             <input type="number" inputMode="numeric" placeholder={t('openStock')} value={pf.stock} onChange={(e) => setPf({ ...pf, stock: e.target.value })} />
             <button className="btn" onClick={addProduct}>{t('add')}</button>
           </div>
+          <div style={{ marginTop: 10 }}>
+            <label style={{ display: 'block', color: 'var(--mut)', fontSize: 13, marginBottom: 4 }}>{t('groupLbl')}</label>
+            <select value={pf.gid || ''} onChange={(e) => setPf({ ...pf, gid: e.target.value })}>
+              <option value="">{t('ungrouped')}</option>
+              {groups.map((g) => <option key={g.id} value={g.id}>{g.name}</option>)}
+            </select>
+          </div>
         </div>
         <div className="card">
           <div className="row between" style={{ marginBottom: 10 }}><h3 style={{ margin: 0 }}>{t('stockTable')} ({products.length})</h3>{searchBox}</div>
@@ -941,27 +1021,63 @@ export default function App() {
         {totalBar}
       </>
     ),
-    list: () => (
-      <>
-        <div className="card">
-          <div className="row between" style={{ marginBottom: 10 }}><h3 style={{ margin: 0 }}>{t('list')} ({products.length})</h3>{searchBox}</div>
-          {shownProducts.length === 0 ? <div className="empty">{t('noProduct')}</div> : shownProducts.map((p) => (
-            <div className="item" key={p.id}>
-              <div><div className="nm">{p.name}</div><div className="sub">{t('buy')} {money(p.buy)} • {t('sell')} {money(p.sell)} • {t('value')} {money(p.buy * p.stock)}</div></div>
-              <div className="acts">
-                <button className="ib m" onClick={() => minus(p)}>−</button>
-                <span className="qty">{p.stock}</span>
-                <button className="ib p" onClick={() => plus(p)}>+</button>
-                <button className="ib" onClick={() => openEdit(p)}>✎</button>
-                {delBtn(p)}
-              </div>
-            </div>
-          ))}
+    list: () => {
+      const sections = [{ key: '', name: t('ungrouped'), g: null }, ...groups.map((g) => ({ key: g.id, name: g.name, g }))];
+      const itemRow = (p, gkey) => (
+        <div className={'item' + (dragSt && dragSt.id === p.id ? ' dragging' : '') + (dragSt && dragSt.over === p.id && dragSt.id !== p.id && dragSt.gkey === gkey ? ' dropover' : '')} key={p.id} data-pid={p.id} data-gkey={gkey}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+            <span className="hdl" title={t('dragHint')} onPointerDown={(e) => dragStart(e, p, gkey)} onPointerMove={dragMove} onPointerUp={dragEnd} onPointerCancel={() => setDragSt(null)}>⠿</span>
+            <div><div className="nm">{p.name}</div><div className="sub">{t('buy')} {money(p.buy)} • {t('sell')} {money(p.sell)} • {t('value')} {money(p.buy * p.stock)}</div></div>
+          </div>
+          <div className="acts">
+            <button className="ib m" onClick={() => minus(p)}>−</button>
+            <span className="qty">{p.stock}</span>
+            <button className="ib p" onClick={() => plus(p)}>+</button>
+            <button className="ib" onClick={() => openEdit(p)}>✎</button>
+            {delBtn(p)}
+          </div>
         </div>
-        {totalBar}
-      </>
-    ),
-    tx: () => (
+      );
+      return (
+        <>
+          <div className="card">
+            <div className="row between" style={{ marginBottom: 10 }}><h3 style={{ margin: 0 }}>{t('list')} ({products.length})</h3>{searchBox}</div>
+            <div className="grpadd">
+              <input placeholder={t('groupName')} value={gf} onChange={(e) => setGf(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') addGroup(); }} />
+              <button className="btn" onClick={addGroup} style={{ whiteSpace: 'nowrap' }}>＋ {t('addGroup')}</button>
+            </div>
+            <div className="muted" style={{ marginTop: 8 }}>⠿ {t('dragHint')}</div>
+          </div>
+          {sections.map((sec) => {
+            const its = itemsOf(sec.key);
+            if (!sec.g && its.length === 0 && (groups.length > 0 || q)) return null;
+            if (q && its.length === 0) return null;
+            return (
+              <div className="card" key={sec.key || '_none'}>
+                <div className="row between ghead">
+                  <h3>{sec.name} <span className="muted">({its.length})</span></h3>
+                  <div className="acts">
+                    <button className="ib" title={t('addItemHere')} onClick={() => { setPf({ ...pf, gid: sec.key }); setTab('stock'); window.scrollTo(0, 0); }}>＋</button>
+                    {sec.g && <button className="ib" title={t('editGroup')} onClick={() => { setGm({ id: sec.g.id, name: sec.g.name }); setModal('editGroup'); }}>✎</button>}
+                    {sec.g && delBtn(sec.g)}
+                  </div>
+                </div>
+                {its.length === 0 ? <div className="empty">{t('noGroupItems')}</div> : its.map((p) => itemRow(p, sec.key))}
+              </div>
+            );
+          })}
+          {totalBar}
+        </>
+      );
+    },
+    tx: () => {
+      const L2 = lang === 'en' ? 'en' : 'bn';
+      const first = new Date(cal.y, cal.m, 1).getDay(), dim = new Date(cal.y, cal.m + 1, 0).getDate();
+      const ds = (d) => `${cal.y}-${String(cal.m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+      const hasTx = {}; sales.forEach((x) => { hasTx[x.date] = true; });
+      const shownSales = txDate ? sales.filter((x) => x.date === txDate) : sales;
+      const goMonth = (d) => setCal((c) => { const n = new Date(c.y, c.m + d, 1); return { y: n.getFullYear(), m: n.getMonth() }; });
+      return (
       <>
         <div className="card">
           <h3>{t('tx')}</h3>
@@ -972,9 +1088,27 @@ export default function App() {
             <button className="btn" onClick={addSale}>{t('add')}</button>
           </div>
         </div>
+        <div className="card">
+          <div className="calhd">
+            <button className="ib" onClick={() => goMonth(-1)}>‹</button>
+            <b>{CAL_M[L2][cal.m]} {cal.y}</b>
+            <button className="ib" onClick={() => goMonth(1)}>›</button>
+          </div>
+          <div className="cal">
+            {CAL_D[L2].map((w) => <div className="wd" key={w}>{w}</div>)}
+            {Array.from({ length: first }).map((_, i) => <div key={'e' + i} />)}
+            {Array.from({ length: dim }).map((_, i) => { const d = i + 1, k = ds(d); return (
+              <button key={k} className={(txDate === k ? 'on ' : '') + (k === today() ? 'td' : '')} onClick={() => setTxDate(txDate === k ? '' : k)}>{d}{hasTx[k] && <span className="dt" />}</button>
+            ); })}
+          </div>
+          <div className="row between" style={{ marginTop: 10 }}>
+            <span className="muted">{txDate ? `${txDate} • ${t('dayTotal')}: ${money(sum(shownSales, (s) => s.sell * s.qty))}` : t('pickDate')}</span>
+            {txDate && <button className="btn ghost" style={{ padding: '6px 12px' }} onClick={() => setTxDate('')}>{t('showAll')}</button>}
+          </div>
+        </div>
         <div className="card total"><span>{t('todaySale')}</span><b>{money(sum(sales.filter((s) => s.date === today()), (s) => s.sell * s.qty))}</b></div>
         <div className="card">
-          {sales.length === 0 ? <div className="empty">{t('noData')}</div> : rev(sales).map((s) => (
+          {shownSales.length === 0 ? <div className="empty">{t('noData')}</div> : rev(shownSales).map((s) => (
             <div className="item" key={s.id}>
               <div><div className="nm">{s.name} × {s.qty}</div>
                 <div className="sub">{s.date} • {t('sell')} {money(s.sell)} • {t('profit')} <span className={s.sell >= s.buy ? 'pos' : 'neg'}>{money((s.sell - s.buy) * s.qty)}</span></div></div>
@@ -983,7 +1117,8 @@ export default function App() {
           ))}
         </div>
       </>
-    ),
+      );
+    },
     ret: () => (
       <>
         <div className="card">
@@ -1067,8 +1202,11 @@ export default function App() {
         <div className="card">
           {notes.length === 0 ? <div className="empty">{t('noData')}</div> : rev(notes).map((n) => (
             <div className="item" key={n.id}>
-              <div style={{ whiteSpace: 'pre-wrap', flex: 1 }}>{n.text}<div className="sub">{n.date}</div></div>
-              {delBtn(n)}
+              <div style={{ whiteSpace: 'pre-wrap', flex: 1 }}>{n.text}<div className="sub">{n.date}{n.edited ? ` • ${t('edited')}` : ''}</div></div>
+              <div className="acts">
+                <button className="ib" title={t('editNote')} onClick={() => { setNe({ id: n.id, text: n.text }); setModal('editNote'); }}>✎</button>
+                {delBtn(n)}
+              </div>
             </div>
           ))}
         </div>
@@ -1178,7 +1316,29 @@ export default function App() {
           <label>{t('buyP')}</label><input type="number" value={mf.buy} onChange={(e) => setMf({ ...mf, buy: e.target.value })} />
           <label>{t('sellP')}</label><input type="number" value={mf.sell} onChange={(e) => setMf({ ...mf, sell: e.target.value })} />
           <label>{t('stockQty')}</label><input type="number" value={mf.stock} onChange={(e) => setMf({ ...mf, stock: e.target.value })} />
+          <label>{t('groupLbl')}</label>
+          <select value={mf.gid || ''} onChange={(e) => setMf({ ...mf, gid: e.target.value })}>
+            <option value="">{t('ungrouped')}</option>
+            {groups.map((g) => <option key={g.id} value={g.id}>{g.name}</option>)}
+          </select>
           <div className="row" style={{ marginTop: 14 }}><button className="btn" onClick={saveEdit}>{t('save')}</button><button className="btn ghost" onClick={() => setModal(null)}>{t('cancel')}</button></div>
+        </>
+      );
+    }
+    if (m === 'editGroup') {
+      body = (
+        <>
+          <h2>{t('editGroup')}</h2>
+          <input autoFocus value={gm.name} onChange={(e) => setGm({ ...gm, name: e.target.value })} onKeyDown={(e) => { if (e.key === 'Enter') saveGroup(); }} />
+          <div className="row" style={{ marginTop: 14 }}><button className="btn" onClick={saveGroup}>{t('save')}</button><button className="btn ghost" onClick={() => setModal(null)}>{t('cancel')}</button></div>
+        </>
+      );
+    } else if (m === 'editNote') {
+      body = (
+        <>
+          <h2>{t('editNote')}</h2>
+          <textarea rows={6} autoFocus value={ne.text} onChange={(e) => setNe({ ...ne, text: e.target.value })} />
+          <div className="row" style={{ marginTop: 14 }}><button className="btn" onClick={saveNoteEdit}>{t('save')}</button><button className="btn ghost" onClick={() => setModal(null)}>{t('cancel')}</button></div>
         </>
       );
     }
