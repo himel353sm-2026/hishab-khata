@@ -75,7 +75,7 @@ const L = {
     noteHere: 'নোট লিখুন...', settings: 'সেটিংস', account: 'অ্যাকাউন্ট', language: 'ভাষা', theme: 'থিম মুড',
     dark: 'ডার্ক', light: 'হোয়াইট', bin: 'রিসাইকেল বিন', binEmpty: 'রিসাইকেল বিন খালি', restore: 'রিস্টোর',
     emptyBin: 'সব চিরতরে মুছুন', appInfo: 'অ্যাপ ইনফরমেশন ও আপডেট', version: 'বর্তমান ভার্সন', checkUpdate: 'চেক আপডেট',
-    upToDate: 'আপনার অ্যাপ লেটেস্ট ভার্সনে আছে', updTitle: 'নতুন আপডেট এসেছে', updMsg: 'অ্যাপের নতুন ভার্সন পাওয়া যাচ্ছে। আপডেট করে নিন।', updNow: 'আপডেট করুন', updLater: 'পরে', ungrouped: 'সাধারণ ঘর', addGroup: 'নতুন ঘর যোগ করুন', groupName: 'ঘরের নাম (যেমন: প্যান্ট, শার্ট)', groupLbl: 'ঘর', addItemHere: 'এই ঘরে আইটেম যোগ করুন', noGroupItems: 'এই ঘরে এখনো কোনো আইটেম নেই', editGroup: 'ঘরের নাম বদলান', editNote: 'নোট এডিট করুন', dragHint: 'ধরে টেনে উপর-নিচ করুন বা অন্য ঘরে ফেলুন', allDates: 'সব তারিখ', pickDate: 'তারিখে চাপ দিয়ে ওই দিনের লেনদেন দেখুন', dayTotal: 'এই দিনের বিক্রি', showAll: 'সব দেখান', edited: 'এডিট করা', groupAdded: 'নতুন ঘর যোগ হয়েছে', moved: 'আইটেম ঘরে সরানো হয়েছে', newUpdate: '🔔 নতুন আপডেট এসেছে! আপডেট করতে এখানে ট্যাপ করুন',
+    upToDate: 'আপনার অ্যাপ লেটেস্ট ভার্সনে আছে', updTitle: 'নতুন আপডেট এসেছে', updMsg: 'অ্যাপের নতুন ভার্সন পাওয়া যাচ্ছে। আপডেট করে নিন।', updNow: 'আপডেট করুন', updLater: 'পরে', dlApk: 'অ্যান্ড্রয়েড অ্যাপ ডাউনলোড (APK)', ungrouped: 'সাধারণ ঘর', addGroup: 'নতুন ঘর যোগ করুন', groupName: 'ঘরের নাম (যেমন: প্যান্ট, শার্ট)', groupLbl: 'ঘর', addItemHere: 'এই ঘরে আইটেম যোগ করুন', noGroupItems: 'এই ঘরে এখনো কোনো আইটেম নেই', editGroup: 'ঘরের নাম বদলান', editNote: 'নোট এডিট করুন', dragHint: 'ধরে টেনে উপর-নিচ করুন বা অন্য ঘরে ফেলুন', allDates: 'সব তারিখ', pickDate: 'তারিখে চাপ দিয়ে ওই দিনের লেনদেন দেখুন', dayTotal: 'এই দিনের বিক্রি', showAll: 'সব দেখান', edited: 'এডিট করা', groupAdded: 'নতুন ঘর যোগ হয়েছে', moved: 'আইটেম ঘরে সরানো হয়েছে', newUpdate: '🔔 নতুন আপডেট এসেছে! আপডেট করতে এখানে ট্যাপ করুন',
     logout: 'লগ আউট করুন', business: 'বিজনেস', addBiz: 'নতুন বিজনেসের নাম', manageBiz: 'বিজনেস ম্যানেজ', rename: 'নাম বদলান',
     login: 'লগইন', register: 'রেজিস্টার', email: 'ইমেইল', password: 'পাসওয়ার্ড', yourName: 'আপনার নাম',
     haveAcc: 'অ্যাকাউন্ট আছে? লগইন করুন', noAcc: 'অ্যাকাউন্ট নেই? রেজিস্টার করুন', fill: 'সব ঘর পূরণ করুন',
@@ -102,7 +102,7 @@ const L = {
     noteHere: 'Write a note...', settings: 'Settings', account: 'Account', language: 'Language', theme: 'Theme',
     dark: 'Dark', light: 'White', bin: 'Recycle Bin', binEmpty: 'Recycle Bin is empty', restore: 'Restore',
     emptyBin: 'Delete all forever', appInfo: 'App Info & Update', version: 'Current version', checkUpdate: 'Check for update',
-    upToDate: 'You are on the latest version', updTitle: 'New update available', updMsg: 'A new version of the app is available. Please update.', updNow: 'Update now', updLater: 'Later', ungrouped: 'General', addGroup: 'Add new group', groupName: 'Group name (e.g. Pants, Shirts)', groupLbl: 'Group', addItemHere: 'Add item to this group', noGroupItems: 'No items in this group yet', editGroup: 'Rename group', editNote: 'Edit note', dragHint: 'Hold and drag to reorder or drop into another group', allDates: 'All dates', pickDate: 'Tap a date to see that day\'s transactions', dayTotal: 'Sales this day', showAll: 'Show all', edited: 'edited', groupAdded: 'New group added', moved: 'Item moved to group', newUpdate: '🔔 New update available! Tap here to update',
+    upToDate: 'You are on the latest version', updTitle: 'New update available', updMsg: 'A new version of the app is available. Please update.', updNow: 'Update now', updLater: 'Later', dlApk: 'Download Android app (APK)', ungrouped: 'General', addGroup: 'Add new group', groupName: 'Group name (e.g. Pants, Shirts)', groupLbl: 'Group', addItemHere: 'Add item to this group', noGroupItems: 'No items in this group yet', editGroup: 'Rename group', editNote: 'Edit note', dragHint: 'Hold and drag to reorder or drop into another group', allDates: 'All dates', pickDate: 'Tap a date to see that day\'s transactions', dayTotal: 'Sales this day', showAll: 'Show all', edited: 'edited', groupAdded: 'New group added', moved: 'Item moved to group', newUpdate: '🔔 New update available! Tap here to update',
     logout: 'Log out', business: 'Business', addBiz: 'New business name', manageBiz: 'Manage businesses', rename: 'Rename',
     login: 'Login', register: 'Register', email: 'Email', password: 'Password', yourName: 'Your name',
     haveAcc: 'Have an account? Login', noAcc: 'No account? Register', fill: 'Fill all fields',
@@ -409,6 +409,7 @@ export default function App() {
   const [upd, setUpd] = useState(null);
   const [ver, setVer] = useState(VERSION);   // আসল ভার্সন public/version.json থেকে আসে
   const baseVer = useRef(null);
+  const [apkLink, setApkLink] = useState('');   // ওয়েবসাইটে APK ডাউনলোড বোতামের লিংক
   const [apkUpd, setApkUpd] = useState(null);   // APK আপডেট পপআপ (Firebase Console থেকে চালানো যায়)
   const [apkLater, setApkLater] = useState(false);
 
@@ -579,7 +580,7 @@ export default function App() {
 
   /* ---- আপডেট চেক (অ্যাপ খুললে সাইলেন্ট) ---- */
   useEffect(() => {
-    checkUpdate(true); checkApk();
+    checkUpdate(true); checkApk(); loadApkLink();
     const onVis = () => { if (document.visibilityState === 'visible') { checkUpdate(true); checkApk(); } };
     document.addEventListener('visibilitychange', onVis);
     return () => document.removeEventListener('visibilitychange', onVis);
@@ -959,6 +960,15 @@ export default function App() {
       if (j.version !== baseVer.current) setUpd(j);
       else if (!silent) toast(t('upToDate'));
     } catch (e) { if (!silent) toast(t('upToDate')); }
+  }
+  async function loadApkLink() {
+    if (isNative()) return;
+    try {
+      let d = null;
+      try { const sn = await getDoc(doc(db, 'artifacts', 'appConfig')); if (sn.exists()) d = sn.data(); } catch (e) { /* ignore */ }
+      if (!d || !d.downloadUrl) { const r = await fetch('/update.json?' + Date.now(), { cache: 'no-store' }); d = await r.json(); }
+      setApkLink((d && d.downloadUrl) || '');
+    } catch (e) { /* ignore */ }
   }
   async function checkApk() {
     if (!isNative()) return;
@@ -1344,7 +1354,8 @@ export default function App() {
           <div className="sset" style={{ cursor: 'pointer' }} onClick={() => setModal('bin')}><b>🗑 {t('bin')} ({binItems.length})</b><span>›</span></div>
           <div style={{ padding: '12px 0' }}><b>ℹ️ {t('appInfo')}</b>
             <div className="muted" style={{ margin: '6px 0 10px' }}>{APP_NAME}<br />{t('version')}: v{String(ver).replace(/^v/i, '')}</div>
-            <button className="btn ghost" onClick={() => checkUpdate(false)}>🔄 {t('checkUpdate')}</button></div>
+            <button className="btn ghost" onClick={() => checkUpdate(false)}>🔄 {t('checkUpdate')}</button>
+            {apkLink && !isNative() && <a className="btn full" href={apkLink} download target="_blank" rel="noopener noreferrer" style={{ display: 'block', textDecoration: 'none', textAlign: 'center', marginTop: 8 }}>📲 {t('dlApk')}</a>}</div>
           <button className="btn red full" style={{ marginTop: 6 }} onClick={doLogout}>{t('logout')}</button>
           <button className="btn ghost full" style={{ marginTop: 8, color: 'var(--red)' }} onClick={() => { setDp(''); setModal('delAcc'); }}>🗑 {t('delAcc')}</button>
           <button className="btn ghost full" style={{ marginTop: 8 }} onClick={() => setModal(null)}>{t('cancel')}</button>
